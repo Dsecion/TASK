@@ -17,6 +17,7 @@
 ".\objects\task.o"
 ".\objects\main.o"
 ".\objects\delay.o"
+".\objects\getdata.o"
 ".\objects\myscratterload.o"
 ".\objects\led.o"
 ".\objects\usart.o"

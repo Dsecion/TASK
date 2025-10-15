@@ -223,7 +223,7 @@ F (.\start\core_cmFunc.h)(0x685AA51A)()
 F (.\start\core_cmInstr.h)(0x685AA51A)()
 F (.\start\core_cmSimd.h)(0x685AA51A)()
 F (.\start\stm32f4xx.h)(0x685AA51A)()
-F (.\user\Task.c)(0x68EE1322)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I .\core -I .\hardware -I .\ports -I .\start -I .\user -I .\library\inc -I .\Trace\Cfg -I .\Trace\OS -I .\Trace\Segger -I .\Trace\OS\Config-ID:\Keil_v5\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="540" -DSTM32F401xE -DSTM32F401xx -DUSE_STDPERIPH_DRIVER-o .\objects\task.o --omf_browse .\objects\task.crf --depend .\objects\task.d)
+F (.\user\Task.c)(0x68EE13CB)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I .\core -I .\hardware -I .\ports -I .\start -I .\user -I .\library\inc -I .\Trace\Cfg -I .\Trace\OS -I .\Trace\Segger -I .\Trace\OS\Config-ID:\Keil_v5\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="540" -DSTM32F401xE -DSTM32F401xx -DUSE_STDPERIPH_DRIVER-o .\objects\task.o --omf_browse .\objects\task.crf --depend .\objects\task.d)
 I (user\Task.h)(0x685EAC14)
 I (.\core\ucos_ii.h)(0x685AA51A)
 I (.\ports\app_cfg.h)(0x685AA51A)
@@ -353,6 +353,53 @@ I (.\library\inc\stm32f4xx_usart.h)(0x685AA51A)
 I (.\library\inc\stm32f4xx_wwdg.h)(0x685AA51A)
 I (.\library\inc\misc.h)(0x685AA51A)
 F (.\user\Delay.h)(0x685AA51A)()
+F (.\user\getdata.c)(0x68EF5E3A)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I .\core -I .\hardware -I .\ports -I .\start -I .\user -I .\library\inc -I .\Trace\Cfg -I .\Trace\OS -I .\Trace\Segger -I .\Trace\OS\Config-ID:\Keil_v5\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="540" -DSTM32F401xE -DSTM32F401xx -DUSE_STDPERIPH_DRIVER-o .\objects\getdata.o --omf_browse .\objects\getdata.crf --depend .\objects\getdata.d)
+I (.\core\ucos_ii.h)(0x685AA51A)
+I (.\ports\app_cfg.h)(0x685AA51A)
+I (D:\Keil_v5\ARM\compile\include\stdarg.h)(0x5E8E3CC2)
+I (D:\Keil_v5\ARM\compile\include\stdio.h)(0x5E8E3CC2)
+I (.\ports\os_cfg.h)(0x68EE0C86)
+I (.\ports\os_cpu.h)(0x68EE0C34)
+I (.\core\os_trace.h)(0x685AA51A)
+I (.\Trace\OS\os_trace_events.h)(0x681C70D8)
+I (.\Trace\Segger\SEGGER_SYSVIEW.h)(0x681C70D8)
+I (.\Trace\Segger\SEGGER.h)(0x681C70D8)
+I (.\Trace\Cfg\Global.h)(0x681C70D4)
+I (.\Trace\Segger\SEGGER_SYSVIEW_ConfDefaults.h)(0x681C70D8)
+I (.\Trace\Cfg\SEGGER_SYSVIEW_Conf.h)(0x685BA346)
+I (.\Trace\Cfg\SEGGER_RTT_Conf.h)(0x685BA346)
+I (.\Trace\OS\Config\os_cfg_trace.h)(0x681C70D8)
+I (.\core\os.h)(0x685AA51A)
+I (.\start\stm32f4xx.h)(0x685AA51A)
+I (.\start\core_cm4.h)(0x685AA51A)
+I (D:\Keil_v5\ARM\compile\include\stdint.h)(0x5E8E3CC2)
+I (.\start\core_cmInstr.h)(0x685AA51A)
+I (.\start\core_cmFunc.h)(0x685AA51A)
+I (.\start\core_cmSimd.h)(0x685AA51A)
+I (D:\Keil_v5\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h)(0x66DE694D)
+I (.\library\inc\stm32f4xx_conf.h)(0x685AA51A)
+I (.\library\inc\stm32f4xx_adc.h)(0x685AA51A)
+I (.\library\inc\stm32f4xx_crc.h)(0x685AA51A)
+I (.\library\inc\stm32f4xx_dbgmcu.h)(0x685AA51A)
+I (.\library\inc\stm32f4xx_dma.h)(0x685AA51A)
+I (.\library\inc\stm32f4xx_exti.h)(0x685AA51A)
+I (.\library\inc\stm32f4xx_flash.h)(0x685AA51A)
+I (.\library\inc\stm32f4xx_gpio.h)(0x685AA51A)
+I (.\library\inc\stm32f4xx_i2c.h)(0x685AA51A)
+I (.\library\inc\stm32f4xx_iwdg.h)(0x685AA51A)
+I (.\library\inc\stm32f4xx_pwr.h)(0x685AA51A)
+I (.\library\inc\stm32f4xx_rcc.h)(0x685AA51A)
+I (.\library\inc\stm32f4xx_rtc.h)(0x685AA51A)
+I (.\library\inc\stm32f4xx_sdio.h)(0x685AA51A)
+I (.\library\inc\stm32f4xx_spi.h)(0x685AA51A)
+I (.\library\inc\stm32f4xx_syscfg.h)(0x685AA51A)
+I (.\library\inc\stm32f4xx_tim.h)(0x685AA51A)
+I (.\library\inc\stm32f4xx_usart.h)(0x685AA51A)
+I (.\library\inc\stm32f4xx_wwdg.h)(0x685AA51A)
+I (.\library\inc\misc.h)(0x685AA51A)
+I (.\hardware\GY86.h)(0x685AA51A)
+I (D:\Keil_v5\ARM\compile\include\math.h)(0x5E8E3CC2)
+F (.\user\getdata.h)(0x68EF063F)()
 F (.\myScratterLoad.s)(0x685AA51A)(--cpu Cortex-M4.fp.sp -g --apcs=interwork -ID:\Keil_v5\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include--pd "__UVISION_VERSION SETA 540" --pd "STM32F401xE SETA 1"--list .\listings\myscratterload.lst --xref -o .\objects\myscratterload.o --depend .\objects\myscratterload.d)
 F (.\hardware\LED.c)(0x685AA51A)(--c99 -c --cpu Cortex-M4.fp.sp -g -O0 --apcs=interwork --split_sections -I .\core -I .\hardware -I .\ports -I .\start -I .\user -I .\library\inc -I .\Trace\Cfg -I .\Trace\OS -I .\Trace\Segger -I .\Trace\OS\Config-ID:\Keil_v5\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="540" -DSTM32F401xE -DSTM32F401xx -DUSE_STDPERIPH_DRIVER-o .\objects\led.o --omf_browse .\objects\led.crf --depend .\objects\led.d)
 I (.\core\os.h)(0x685AA51A)
