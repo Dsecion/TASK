@@ -2,8 +2,8 @@
 .\objects\myhook.o: .\core\os.h
 .\objects\myhook.o: .\core\ucos_ii.h
 .\objects\myhook.o: .\ports\app_cfg.h
-.\objects\myhook.o: D:\Keil_v5\ARM\compile\Bin\..\include\stdarg.h
-.\objects\myhook.o: D:\Keil_v5\ARM\compile\Bin\..\include\stdio.h
+.\objects\myhook.o: D:\Keil5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\objects\myhook.o: D:\Keil5\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\myhook.o: .\ports\os_cfg.h
 .\objects\myhook.o: .\ports\os_cpu.h
 .\objects\myhook.o: .\core\os_trace.h

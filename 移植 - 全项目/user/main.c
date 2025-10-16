@@ -10,6 +10,7 @@
 #include "MYIIC.h"
 #include "GY86.h"
 #include "ATKBLE01.h"
+#include "usart.h"
 #include "stdio.h"
 #include "SEGGER_SYSVIEW.h"
 
@@ -29,6 +30,7 @@ int main(void){
     GY86_Init();  
 	BLE_Init();
 	OLED_Init();
+	USART2_Init();  // 初始化USART2串口
 	
 	OS_TRACE_INIT(); //systemview初始化
 	OS_TRACE_START(); //开始记录

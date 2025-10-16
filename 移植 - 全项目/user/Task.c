@@ -5,13 +5,18 @@
 #include "stm32f4xx.h"                  // Device header
 #include "GY86.h"
 #include "OLED.h"
-#include "ATKBLE01.h"
 #include "PWM.h"
+#include "getdata.h"
+#include "usart.h"
+#include <string.h>
 
 uint16_t x,y,z;
 int16_t AX, AY, AZ, GX, GY, GZ;
 uint16_t Rc_Data[8];
-uint8_t Cal=0; 
+uint8_t Cal=0;
+
+// 四元数数据存储
+float quaternion_w, quaternion_x, quaternion_y, quaternion_z; 
 
 
 void TIM2_IRQHandler(void)
@@ -50,15 +55,62 @@ void TASK_ShowGY86Data(void *p_arg){
 
 	while(1){
 		
-				 GY86_GetData(&x, &y, &z, &AX, &AY, &AZ, &GX, &GY, &GZ);
-		
-				 BLE_Printf ("01 %5d\n",AX);
-				 BLE_Printf ("02 %5d\n",AY);
-				 BLE_Printf ("03 %5d\n",AZ);
-				 BLE_Printf ("04 %5d\n",GX);
-				 BLE_Printf ("05 %5d\n",GY);
-				 BLE_Printf ("06 %5d\n",GZ);
-	
+        // 获取原始传感器数据
+        GY86_GetData(&x, &y, &z, &AX, &AY, &AZ, &GX, &GY, &GZ);
+        
+        // 执行四元数融合算法
+        Getdata();
+        
+        // 更新四元数数据
+        quaternion_w = q[0];
+        quaternion_x = q[1];
+        quaternion_y = q[2];
+        quaternion_z = q[3];
+        
+        // 按照通信帧格式发送四元数数据
+        uint8_t frame_buffer[24];  // 完整帧缓冲区
+        uint8_t frame_index = 0;
+        uint16_t data_length = 16;  // 四元数数据长度（4个浮点数 × 4字节）
+        
+        // 1. 帧头 (HEAD) - 0xAB
+        frame_buffer[frame_index++] = 0xAB;
+        
+        // 2. 源地址 (S_ADDR) - 设备ID，这里设为0x01
+        frame_buffer[frame_index++] = 0x01;
+        
+        // 3. 目标地址 (D_ADDR) - 接收设备ID，这里设为0x02
+        frame_buffer[frame_index++] = 0x02;
+        
+        // 4. 功能码 (ID) - 四元数数据功能码，设为0x10
+        frame_buffer[frame_index++] = 0x10;
+        
+        // 5. 数据长度 (LEN) - 小端序，16字节
+        frame_buffer[frame_index++] = (uint8_t)(data_length & 0xFF);        // 低字节
+        frame_buffer[frame_index++] = (uint8_t)((data_length >> 8) & 0xFF); // 高字节
+        
+        // 6. 数据内容 (DATA) - 四元数数据（16字节）
+        memcpy(&frame_buffer[frame_index], &quaternion_w, 4);
+        frame_index += 4;
+        memcpy(&frame_buffer[frame_index], &quaternion_x, 4);
+        frame_index += 4;
+        memcpy(&frame_buffer[frame_index], &quaternion_y, 4);
+        frame_index += 4;
+        memcpy(&frame_buffer[frame_index], &quaternion_z, 4);
+        frame_index += 4;
+        
+        // 7. 和校验 (SUM CHECK) 和 8. 附加校验 (ADD CHECK)
+        // 按照图片中的算法：SUM CHECK是累加校验，ADD CHECK是对SUM CHECK中间值的累加
+        uint8_t sum_check, add_check;
+        CalculateChecksums(frame_buffer, frame_index, &sum_check, &add_check);
+        
+        frame_buffer[frame_index++] = sum_check;
+        frame_buffer[frame_index++] = add_check;
+        
+        // 发送完整帧
+        USART2_SendArray(frame_buffer, 24);
+        
+        // 任务延时，控制数据发送频率
+        OSTimeDly(10); // 延时10个系统时钟周期，约100ms（假设系统时钟为100Hz）
 	}
 }
 void TASK_ChangeMotor(void *p_arg){

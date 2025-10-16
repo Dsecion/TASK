@@ -100,3 +100,30 @@ void USART2_SendNumber(int32_t num, uint8_t base) {
     }
 }
 
+//发送字节数组
+void USART2_SendArray(uint8_t *array, uint16_t length)
+{
+	uint16_t i;
+	for (i = 0; i < length; i++)
+	{
+		USART2_SendChar(array[i]);
+	}
+}
+
+// 计算和校验和附加校验（按照图片中的算法）
+void CalculateChecksums(uint8_t *data, uint16_t length, uint8_t *sum_check, uint8_t *add_check)
+{
+	uint8_t sumcheck = 0;  // 使用uint8_t确保8位截断
+	uint8_t addcheck = 0;
+	uint16_t i;
+	
+	for (i = 0; i < length; i++)
+	{
+		sumcheck += data[i];  // SUM CHECK: 累加每个字节
+		addcheck += sumcheck; // ADD CHECK: 累加sumcheck的中间值
+	}
+	
+	*sum_check = sumcheck;
+	*add_check = addcheck;
+}
+
