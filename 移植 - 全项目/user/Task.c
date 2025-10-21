@@ -7,9 +7,9 @@
 #include "OLED.h"
 #include "PWM.h"
 #include "getdata.h"
-#include "usart.h"
+#include "ATKBLE01.h"
 #include <string.h>
-
+#include "usart.h"
 uint16_t x,y,z;
 int16_t AX, AY, AZ, GX, GY, GZ;
 uint16_t Rc_Data[8];
@@ -51,6 +51,9 @@ void TIM2_IRQHandler(void)
     OSIntExit();  // 退出中断
 }
 
+
+
+
 void TASK_ShowGY86Data(void *p_arg){
 
 	while(1){
@@ -68,36 +71,31 @@ void TASK_ShowGY86Data(void *p_arg){
         quaternion_z = q[3];
         
         // 按照通信帧格式发送四元数数据
-        uint8_t frame_buffer[24];  // 完整帧缓冲区
+        uint8_t frame_buffer[15];  // 完整帧缓冲区
         uint8_t frame_index = 0;
-        uint16_t data_length = 16;  // 四元数数据长度（4个浮点数 × 4字节）
-        
+       
         // 1. 帧头 (HEAD) - 0xAB
-        frame_buffer[frame_index++] = 0xAB;
+        frame_buffer[frame_index++] = 0xAA;
         
         // 2. 源地址 (S_ADDR) - 设备ID，这里设为0x01
-        frame_buffer[frame_index++] = 0x01;
+        frame_buffer[frame_index++] = 0xFF;
         
         // 3. 目标地址 (D_ADDR) - 接收设备ID，这里设为0x02
-        frame_buffer[frame_index++] = 0x02;
-        
-        // 4. 功能码 (ID) - 四元数数据功能码，设为0x10
-        frame_buffer[frame_index++] = 0x10;
-        
+        frame_buffer[frame_index++] = 0x04;
+      
         // 5. 数据长度 (LEN) - 小端序，16字节
-        frame_buffer[frame_index++] = (uint8_t)(data_length & 0xFF);        // 低字节
-        frame_buffer[frame_index++] = (uint8_t)((data_length >> 8) & 0xFF); // 高字节
-        
+        frame_buffer[frame_index++] = 0x09;        // 低字节
+     
         // 6. 数据内容 (DATA) - 四元数数据（16字节）
         memcpy(&frame_buffer[frame_index], &quaternion_w, 4);
-        frame_index += 4;
+        frame_index += 2;
         memcpy(&frame_buffer[frame_index], &quaternion_x, 4);
-        frame_index += 4;
+        frame_index += 2;
         memcpy(&frame_buffer[frame_index], &quaternion_y, 4);
-        frame_index += 4;
+        frame_index += 2;
         memcpy(&frame_buffer[frame_index], &quaternion_z, 4);
-        frame_index += 4;
-        
+        frame_index += 2;
+        frame_buffer[frame_index++] = (uint8_t)(0); 
         // 7. 和校验 (SUM CHECK) 和 8. 附加校验 (ADD CHECK)
         // 按照图片中的算法：SUM CHECK是累加校验，ADD CHECK是对SUM CHECK中间值的累加
         uint8_t sum_check, add_check;
@@ -107,7 +105,7 @@ void TASK_ShowGY86Data(void *p_arg){
         frame_buffer[frame_index++] = add_check;
         
         // 发送完整帧
-        USART2_SendArray(frame_buffer, 24);
+        BLE_SendArray(frame_buffer, 15);
         
         // 任务延时，控制数据发送频率
         OSTimeDly(10); // 延时10个系统时钟周期，约100ms（假设系统时钟为100Hz）

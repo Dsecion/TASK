@@ -110,20 +110,17 @@ void USART2_SendArray(uint8_t *array, uint16_t length)
 	}
 }
 
-// ¼ÆËãºÍĞ£ÑéºÍ¸½¼ÓĞ£Ñé£¨°´ÕÕÍ¼Æ¬ÖĞµÄËã·¨£©
 void CalculateChecksums(uint8_t *data, uint16_t length, uint8_t *sum_check, uint8_t *add_check)
 {
-	uint8_t sumcheck = 0;  // Ê¹ÓÃuint8_tÈ·±£8Î»½Ø¶Ï
+	uint8_t sumcheck = 0;  // Ê¹Óƒuint8_tÈ·Â±Â£8Î»Â½Ø¶Ï
 	uint8_t addcheck = 0;
 	uint16_t i;
 	
-	for (i = 0; i < length; i++)
+	for (i = 0; i < data[3]+4; i++)
 	{
-		sumcheck += data[i];  // SUM CHECK: ÀÛ¼ÓÃ¿¸ö×Ö½Ú
-		addcheck += sumcheck; // ADD CHECK: ÀÛ¼ÓsumcheckµÄÖĞ¼äÖµ
+		sumcheck += data[i];  // SUM CHECK: Ã€Û¼ÓƒÂ¿Â¸Ã¶×–Â½Ú
+		addcheck += sumcheck; // ADD CHECK: Ã€Û¼Ó³umcheckÂµÄ–Ğ¼ä–µ
 	}
-	
 	*sum_check = sumcheck;
 	*add_check = addcheck;
 }
-
