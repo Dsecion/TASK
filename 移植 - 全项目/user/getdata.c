@@ -8,12 +8,12 @@
 
 #define BETA_VALUE 0.003061862f  // sqrt(3/4) * 0.005 * sqrt(50)
 
-float q[4]= {1,0,0,0};
+float q[4]={1,0,0,0};
 float t = 0.01;
 float Beta = BETA_VALUE;
 
 void Getdata(void){
-	uint16_t Mx1, My1, Mz1;	// 磁力计原始数据
+	int16_t Mx1, My1, Mz1;	// 磁力计原始数据
  	int16_t  AX1, AY1, AZ1, GX1, GY1, GZ1;	// 加速度计和陀螺仪原始数据
   
 	float Mx, My, Mz;	// 归一化后的磁力计数据
@@ -28,6 +28,7 @@ void Getdata(void){
 	GY86_GetData(&Mx1, &My1, &Mz1, &AX1, &AY1, &AZ1, &GX1, &GY1, &GZ1);
 
 	// 归一化磁力计数据，M /= ||M||
+	
 	Mx = Mx1 / sqrt(Mx1*Mx1+My1*My1+Mz1*Mz1);
 	My = My1 / sqrt(Mx1*Mx1+My1*My1+Mz1*Mz1);
 	Mz = Mz1 / sqrt(Mx1*Mx1+My1*My1+Mz1*Mz1);

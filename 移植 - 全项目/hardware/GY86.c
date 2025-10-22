@@ -118,7 +118,7 @@ void GY86_Init(void){
 	
 }
 
-void GY86_GetData(uint16_t *x, uint16_t *y, uint16_t *z, int16_t *AccX, int16_t *AccY, int16_t *AccZ,
+void GY86_GetData(int16_t *x, int16_t *y, int16_t *z, int16_t *AccX, int16_t *AccY, int16_t *AccZ,
                               int16_t *GyroX, int16_t *GyroY, int16_t *GyroZ)
 
 {

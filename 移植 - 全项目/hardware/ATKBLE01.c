@@ -68,7 +68,7 @@ void USART6_SendByte(uint8_t Byte)
 	while (USART_GetFlagStatus(USART6, USART_FLAG_TXE) == RESET); //??TDR?????????????
 }
 
-void BLE_SendArray(uint8_t *Array, uint16_t Length)
+void BLE_SendArray(int8_t *Array, uint16_t Length)
 {
 	uint16_t i;
 	for (i = 0; i < Length; i ++)
@@ -120,3 +120,4 @@ void BLE_Printf(char *format, ...)
 	va_end(arg);
 	BLE_SendString(String);
 }
+

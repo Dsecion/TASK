@@ -51,4 +51,4 @@
 .\objects\task.o: user\getdata.h
 .\objects\task.o: .\hardware\ATKBLE01.h
 .\objects\task.o: D:\Keil_v5\ARM\compile\Bin\..\include\string.h
-.\objects\task.o: .\hardware\usart.h
+.\objects\task.o: user\Delay.h

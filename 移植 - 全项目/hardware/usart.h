@@ -22,8 +22,7 @@ void USART2_SendNumber(int32_t num, uint8_t base);
 // 发送字节数组
 void USART2_SendArray(uint8_t *array, uint16_t length);
 
-// 校验和计算函数
-void CalculateChecksums(uint8_t *data, uint16_t length, uint8_t *sum_check, uint8_t *add_check);
+
 
 // 接收字符串
 //void USART2_ReceiveString(char *buf, uint32_t max_len);

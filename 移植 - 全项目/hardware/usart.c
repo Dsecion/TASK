@@ -109,18 +109,3 @@ void USART2_SendArray(uint8_t *array, uint16_t length)
 		USART2_SendChar(array[i]);
 	}
 }
-
-void CalculateChecksums(uint8_t *data, uint16_t length, uint8_t *sum_check, uint8_t *add_check)
-{
-	uint8_t sumcheck = 0;  // ʹӃuint8_tȷ±£8λ½ضύ
-	uint8_t addcheck = 0;
-	uint16_t i;
-	
-	for (i = 0; i < data[3]+4; i++)
-	{
-		sumcheck += data[i];  // SUM CHECK: ÀۼӃ¿¸öז½ڍ
-		addcheck += sumcheck; // ADD CHECK: ÀۼӳumcheckµĖм䖵
-	}
-	*sum_check = sumcheck;
-	*add_check = addcheck;
-}
