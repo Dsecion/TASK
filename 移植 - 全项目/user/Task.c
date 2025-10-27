@@ -58,7 +58,7 @@ void TASK_ShowGY86Data(void *p_arg){
 	while(1){
         
    //     // 执行四元数融合算法
-   //     Getdata();
+    Getdata();
    //     
    //     // 更新四元数数据
    //     quaternion_w = (int16_t)(10000*q[0]);
@@ -110,10 +110,10 @@ void TASK_ShowGY86Data(void *p_arg){
    //     
    //     // 发送完整帧
    //     BLE_SendArray(frame_buffer, 15);
-	      GetEulerAngles(roll,pitch,yaw);
-				BLE_Printf("%f,%f,%f\n",roll,pitch,yaw);
+
+				BLE_Printf("%.2f,%.2f,%.2f\n",roll,pitch,yaw);
 				
-				Delay_s(2);
+				Delay_ms(10);
 				
 
 				
