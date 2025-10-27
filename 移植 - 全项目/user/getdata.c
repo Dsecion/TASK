@@ -7,6 +7,10 @@
 
 
 #define BETA_VALUE 0.003061862f  // sqrt(3/4) * 0.005 * sqrt(50)
+#define gravity 9.81f
+#define ACCEL_LSB 8192.0f
+#define MAG_LSB 1090.0f
+#define Ga2miuT 100.0f
 
 float q[4]={1,0,0,0};
 float t = 0.01;
@@ -30,11 +34,24 @@ void Getdata(void){
 
 	GY86_GetData(&Mx1, &My1, &Mz1, &AX1, &AY1, &AZ1, &GX1, &GY1, &GZ1);
 
+	Mx1 /= MAG_LSB;
+    My1 /= MAG_LSB;
+    Mz1 /= MAG_LSB;
+    Mx1 *= Ga2miuT;
+    My1 *= Ga2miuT;
+    Mz1 *= Ga2miuT;
 	// 归一化磁力计数据，M /= ||M||
 	
 	Mx = Mx1 / sqrt(Mx1*Mx1+My1*My1+Mz1*Mz1);
 	My = My1 / sqrt(Mx1*Mx1+My1*My1+Mz1*Mz1);
 	Mz = Mz1 / sqrt(Mx1*Mx1+My1*My1+Mz1*Mz1);
+
+	AX1 /= ACCEL_LSB;
+    AY1 /= ACCEL_LSB;
+    AZ1 /= ACCEL_LSB;
+    AX1 *= gravity;
+    AY1 *= gravity;
+    AZ1 *= gravity;
 
 	// 归一化加速度计数据，A /= ||A||
 	AX = AX1 / sqrt(AX1*AX1+AY1*AY1+AZ1*AZ1);
