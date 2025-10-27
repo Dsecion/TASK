@@ -34,24 +34,14 @@ void Getdata(void){
 
 	GY86_GetData(&Mx1, &My1, &Mz1, &AX1, &AY1, &AZ1, &GX1, &GY1, &GZ1);
 
-	Mx1 /= MAG_LSB;
-    My1 /= MAG_LSB;
-    Mz1 /= MAG_LSB;
-    Mx1 *= Ga2miuT;
-    My1 *= Ga2miuT;
-    Mz1 *= Ga2miuT;
+
 	// 归一化磁力计数据，M /= ||M||
 	
 	Mx = Mx1 / sqrt(Mx1*Mx1+My1*My1+Mz1*Mz1);
 	My = My1 / sqrt(Mx1*Mx1+My1*My1+Mz1*Mz1);
 	Mz = Mz1 / sqrt(Mx1*Mx1+My1*My1+Mz1*Mz1);
 
-	AX1 /= ACCEL_LSB;
-    AY1 /= ACCEL_LSB;
-    AZ1 /= ACCEL_LSB;
-    AX1 *= gravity;
-    AY1 *= gravity;
-    AZ1 *= gravity;
+
 
 	// 归一化加速度计数据，A /= ||A||
 	AX = AX1 / sqrt(AX1*AX1+AY1*AY1+AZ1*AZ1);
@@ -59,9 +49,9 @@ void Getdata(void){
 	AZ = AZ1 / sqrt(AX1*AX1+AY1*AY1+AZ1*AZ1);
 
 	// 陀螺仪数据处理，W /= LSB
-	GX = GX1*3.1415926/16.4*180;		
-	GY = GY1*3.1415926/16.4*180;	
-	GZ = GZ1*3.1415926/16.4*180;
+	GX = (GX1*3.1415926*180)/65.5;		
+	GY = (GY1*3.1415926*180)/65.5;	
+	GZ = (GZ1*3.1415926*180)/65.5;
 	
 	// 四元数微分计算，q̇ = 0.5 * q ⊗ ω的实现
 	float qwt = -0.5f*( q[1]*GX+q[2]*GY+q[3]*GZ);
@@ -193,37 +183,3 @@ void Getdata(void){
 		
 	}
 }
-
-// 四元数转欧拉角（弧度），输入 q = {w, x, y, z}
-void QuaternionToEuler(const float q_in[4], float roll, float pitch, float yaw){
-	  Getdata();
-    float w = q_in[0];
-    float x = q_in[1];
-    float y = q_in[2];
-    float z = q_in[3];
-
-    float sinr_cosp = 2.0f * (w * x + y * z);
-    float cosr_cosp = 1.0f - 2.0f * (x * x + y * y);
-    if(roll) {
-        roll = atan2f(sinr_cosp, cosr_cosp);
-    }
-
-    float sinp = 2.0f * (w * y - z * x);
-    if(sinp >= 1.0f) sinp = 1.0f;
-    else if(sinp <= -1.0f) sinp = -1.0f;
-    if(pitch) {
-        pitch = asinf(sinp);
-    }
-
-    float siny_cosp = 2.0f * (w * z + x * y);
-    float cosy_cosp = 1.0f - 2.0f * (y * y + z * z);
-    if(yaw) {
-        yaw = atan2f(siny_cosp, cosy_cosp);
-    }
-}
-
-// 使用全局四元数 q 计算欧拉角（弧度）
-void GetEulerAngles(float roll, float pitch, float yaw){
-    QuaternionToEuler(q, roll, pitch, yaw);
-}
-
