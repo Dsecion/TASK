@@ -11,6 +11,9 @@
 float q[4]={1,0,0,0};
 float t = 0.01;
 float Beta = BETA_VALUE;
+float roll = 0;
+float pitch = 0;
+float yaw = 0;
 
 void Getdata(void){
 	int16_t Mx1, My1, Mz1;	// 磁力计原始数据
@@ -149,5 +152,39 @@ void Getdata(void){
 		q[1] /= q_norm;
 		q[2] /= q_norm;
 		q[3] /= q_norm;
+		
 	}
 }
+
+// 四元数转欧拉角（弧度），输入 q = {w, x, y, z}
+void QuaternionToEuler(const float q_in[4], float roll, float pitch, float yaw){
+    float w = q_in[0];
+    float x = q_in[1];
+    float y = q_in[2];
+    float z = q_in[3];
+
+    float sinr_cosp = 2.0f * (w * x + y * z);
+    float cosr_cosp = 1.0f - 2.0f * (x * x + y * y);
+    if(roll) {
+        roll = atan2f(sinr_cosp, cosr_cosp);
+    }
+
+    float sinp = 2.0f * (w * y - z * x);
+    if(sinp >= 1.0f) sinp = 1.0f;
+    else if(sinp <= -1.0f) sinp = -1.0f;
+    if(pitch) {
+        pitch = asinf(sinp);
+    }
+
+    float siny_cosp = 2.0f * (w * z + x * y);
+    float cosy_cosp = 1.0f - 2.0f * (y * y + z * z);
+    if(yaw) {
+        yaw = atan2f(siny_cosp, cosy_cosp);
+    }
+}
+
+// 使用全局四元数 q 计算欧拉角（弧度）
+void GetEulerAngles(float roll, float pitch, float yaw){
+    QuaternionToEuler(q, roll, pitch, yaw);
+}
+

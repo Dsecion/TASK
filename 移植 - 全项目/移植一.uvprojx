@@ -642,6 +642,11 @@
               <FilePath>.\user\Task.c</FilePath>
             </File>
             <File>
+              <FileName>Delay.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\user\Delay.h</FilePath>
+            </File>
+            <File>
               <FileName>Task.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\user\Task.h</FilePath>
@@ -657,19 +662,14 @@
               <FilePath>.\user\Delay.c</FilePath>
             </File>
             <File>
-              <FileName>Delay.h</FileName>
+              <FileName>getdata.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\user\Delay.h</FilePath>
+              <FilePath>.\user\getdata.h</FilePath>
             </File>
             <File>
               <FileName>getdata.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\user\getdata.c</FilePath>
-            </File>
-            <File>
-              <FileName>getdata.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\user\getdata.h</FilePath>
             </File>
           </Files>
         </Group>
