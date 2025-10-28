@@ -54,66 +54,46 @@ void TIM2_IRQHandler(void)
 
 
 void TASK_ShowGY86Data(void *p_arg){
-
-	while(1){
-        
-   //     // Ö´ÐÐËÄÔªÊýÈÚºÏËã·¨
-    Getdata();
+    while(1){
+        Getdata();
        
-    // int16_t q_roll = (int16_t)(roll*100);
-	  // int16_t q_pitch = (int16_t)(pitch*100);
-	  // int16_t q_yaw = (int16_t)(yaw*100)	;
-    // 
-    // int8_t frame_buffer[13];  
-    // uint8_t frame_index = 0;
-    // 
-    // // 1. Ö¡Í· (HEAD) - 0xAB
-    // frame_buffer[frame_index++] = 0xAA;
-    // 
-    // // 2. Ô´µØÖ· (S_ADDR) - Éè±¸ID£¬ÕâÀïÉèÎª0x01
-    // frame_buffer[frame_index++] = 0xFF;
-    // 
-    // // 3. Ä¿±êµØÖ· (D_ADDR) - ½ÓÊÕÉè±¸ID£¬ÕâÀïÉèÎª0x02
-    // frame_buffer[frame_index++] = 0x03;
-    // 
-    // // 5. Êý¾Ý³¤¶È (LEN) - Ð¡¶ËÐò£¬16×Ö½Ú
-    // frame_buffer[frame_index++] = 7;        // µÍ×Ö½Ú
-	  // 
-    // memcpy(&frame_buffer[frame_index], &q_roll, 2);
-    // frame_index += 2;
-    // memcpy(&frame_buffer[frame_index], &q_pitch, 2); 
-    // frame_index += 2;
-    // memcpy(&frame_buffer[frame_index], &q_yaw, 2);
-    // frame_index += 2; 
-	  // 
-    // frame_buffer[frame_index++] = (uint8_t)(2); 
-		// 
-    // uint8_t sum_check = 0;
-    // uint8_t	add_check = 0;
-    // for(int i = 1; i <= 10; i++) {  // ä»ŽD_ADDR(ç´¢å¼•1)åˆ°fusion_sta(ç´¢å¼•12)
-    //      sum_check += frame_buffer[i];
-	  //     add_check += sum_check;
-    // }
-    // 
-    // 
-    //    
-    // frame_buffer[frame_index++] = sum_check;
-    // frame_buffer[frame_index] = add_check;
-    // 
-    // // ·¢ËÍÍêÕûÖ¡
-    // BLE_SendArray(frame_buffer, 13);
-	  float q_roll =roll;
-		float q_pitch = pitch;
-		float q_yaw = yaw;
-		
-		BLE_Printf("%f, %f, %f\n",q_roll,q_pitch,q_yaw);
-		 
-	  Delay_ms(10);
-				
-
-				
-	}
+        int16_t q_roll = (int16_t)(roll*100.0f);
+        int16_t q_pitch = (int16_t)(pitch*100.0f);
+        int16_t q_yaw = (int16_t)(yaw*100.0f);
+       
+        int8_t frame_buffer[13];  // æ”¹ä¸ºuint8_t
+        uint8_t sum_check = 0, add_check = 0;
+        uint8_t data_len = 7;
+     
+        // ä¿®æ­£å¸§ç»“æž„é¡ºåº
+        frame_buffer[0] = 0xAA;     // å¸§å¤´
+        frame_buffer[1] = 0xFF;     // ç›®æ ‡åœ°å€ (å¹¿æ’­)
+        frame_buffer[2] = 0x03;     // æ•°æ®ID
+        frame_buffer[3] = data_len; // æ•°æ®é•¿åº¦
+     
+        // æ•°æ®éƒ¨åˆ†ä¿æŒä¸å˜
+       frame_buffer[4] = q_roll & 0xff;     // å¸§å¤´
+        frame_buffer[5] = (q_roll>>8)&0xff;     // ç›®æ ‡åœ°å€ (å¹¿æ’­)
+        frame_buffer[6] = q_pitch & 0xff;     // æ•°æ®ID
+        frame_buffer[7] = (q_pitch>>8)&0xff;
+		frame_buffer[8] = q_yaw& 0xff;     // æ•°æ®ID
+        frame_buffer[9] = (q_yaw>>8)&0xff;
+		 frame_buffer[10] = 2;
+		// FUSION_STAæ”¹ä¸º2
+     
+        // ä¿®æ­£æ ¡éªŒå’Œè®¡ç®—
+        for(int i = 0; i < 4 + data_len; i++) { // i=0åˆ°10
+            sum_check += frame_buffer[i];
+            add_check += sum_check;
+        }
+        frame_buffer[11] = sum_check;
+        frame_buffer[12] = add_check;
+       
+        BLE_SendArray(frame_buffer, 13);
+		Delay_ms(10);
+    }
 }
+
 void TASK_ChangeMotor(void *p_arg){
 	
     PPM_Sem = OSSemCreate(0);

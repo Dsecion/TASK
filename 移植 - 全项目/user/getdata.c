@@ -5,32 +5,25 @@
 #include "GY86.h"
 #include <math.h>
 
-
-#define BETA_VALUE 0.003061862f  // sqrt(3/4) * 0.005 * sqrt(50)
-#define gravity 9.81f
-#define ACCEL_LSB 8192.0f
-#define MAG_LSB 1090.0f
-#define Ga2miuT 100.0f
+#define beta_max 5.0f
+#define beta_min 0.1f
+#define zeta 0.05f
 
 float q[4]={1,0,0,0};
-float t = 0.01;
-float Beta = BETA_VALUE;
+float t = 0.01f;
 float roll = 0;
 float pitch = 0;
 float yaw = 0;
 
 
-
-// 情况3: 量程±16g的传感器
-float accel_offset_x = -12.3f;
-float accel_offset_y = 18.6f;
-float accel_offset_z = -5.4f;
-float accel_scale = 0.0012f;      // 对应约8192 LSB/g
+const float mag_kx = 0.98320f, mag_ky = 1.05344f, mag_kz = 0.96968;
+const float mag_bx = 34.0f, mag_by = -51.0f, mag_bz = -105.0f;
 
 void Getdata(void){
 	int16_t Mx1, My1, Mz1;	// 磁力计原始数据
  	int16_t  AX1, AY1, AZ1, GX1, GY1, GZ1;	// 加速度计和陀螺仪原始数据
-  
+    static float wBias_x = 0.0f, wBias_y = 0.0f, wBias_z = 0.0f;
+	static float beta = 0.0f;
 	float Mx, My, Mz;	// 归一化后的磁力计数据
 	float AX, AY, AZ;	// 归一化后的加速度计数据
 	float GX, GY, GZ;	// 陀螺仪数据
@@ -45,28 +38,16 @@ void Getdata(void){
 
 	// 归一化磁力计数据，M /= ||M||
 	
-	Mx = Mx1 / sqrt(Mx1*Mx1+My1*My1+Mz1*Mz1);
-	My = My1 / sqrt(Mx1*Mx1+My1*My1+Mz1*Mz1);
-	Mz = Mz1 / sqrt(Mx1*Mx1+My1*My1+Mz1*Mz1);
+	Mx1 = (Mx1 - mag_bx) * mag_kx;
+    My1 = (My1 - mag_by) * mag_ky;
+    Mz1 = (Mz1 - mag_bz) * mag_kz;
 
+	// normalise mag data
+	float m_norm = sqrt(Mx1 * Mx1 + My1 * My1 + Mz1 * Mz1);
+	Mx /= m_norm;
+	My /= m_norm;
+	Mz /= m_norm;
 
-  float ax_cal = (AX1 - accel_offset_x) * accel_scale;
-  float ay_cal = (AY1 - accel_offset_y) * accel_scale;
-  float az_cal = (AZ1 - accel_offset_z) * accel_scale;
-	// 归一化加速度计数据，A /= ||A||
-	float norm = sqrt(ax_cal*ax_cal + ay_cal*ay_cal + az_cal*az_cal);
-    
-  if(norm > 0.001f) {
-        AX = ax_cal / norm;
-        AY = ay_cal / norm;
-        AZ = az_cal / norm;
-    } else {
-        // 异常处理
-        AX = 0;
-        AY = 0; 
-        AZ = 1.0f; // 默认指向Z轴
-    }
-    
 	// 归一化加速度计数据，A /= ||A||
 	AX = AX1 / sqrt(AX1*AX1+AY1*AY1+AZ1*AZ1);
 	AY = AY1 / sqrt(AX1*AX1+AY1*AY1+AZ1*AZ1);
@@ -76,12 +57,6 @@ void Getdata(void){
 	GX = (GX1*3.1415926*180)/65.5;		
 	GY = (GY1*3.1415926*180)/65.5;	
 	GZ = (GZ1*3.1415926*180)/65.5;
-	
-	// 四元数微分计算，q̇ = 0.5 * q ⊗ ω的实现
-	float qwt = -0.5f*( q[1]*GX+q[2]*GY+q[3]*GZ);
-	float qxt =  0.5f*( q[0]*GX-q[3]*GY+q[2]*GZ);
-	float qyt =  0.5f*( q[3]*GX+q[0]*GY-q[1]*GZ);
-	float qzt =  0.5f*(-q[2]*GX+q[1]*GY+q[0]*GZ);
 
 	// 机体系下重力加速度方向向量（旋转矩阵*[0,0,1]T）
 	gb[0]= 2*(q[1]*q[3]-q[0]*q[2]);
@@ -163,6 +138,11 @@ void Getdata(void){
 	
 	// ▽E /= ||▽E||
 	float em = sqrt(et[0]*et[0]+et[1]*et[1]+et[2]*et[2]+et[3]*et[3]);
+	
+	beta = (em / 0.5f) * beta_max;
+    if(beta > beta_max) beta = beta_max;
+    if(beta < beta_min) beta = beta_min;
+	
 	if(em > 0.0f) {
 		et[0] /= em;
 		et[1] /= em;		
@@ -170,11 +150,26 @@ void Getdata(void){
 		et[3] /= em;
 	}
 	
+	// compute the dynamic bias of gyro
+    wBias_x += 2 * (-q[1] * et[0] + q[0] * et[1] + q[3] * et[2] - q[2] * et[3]) * t;
+    wBias_y += 2 * (-q[2] * et[0] - q[3] * et[1] + q[0] * et[2] + q[1] * et[3]) * t;
+    wBias_z += 2 * (-q[3] * et[0] + q[2] * et[1] - q[1] * et[2] + q[0] * et[3]) * t;
+
+    GX -= zeta * wBias_x;
+    GY -= zeta * wBias_y;
+    GZ -= zeta * wBias_z;
+
+	// 四元数微分计算，q̇ = 0.5 * q ⊗ ω的实现
+	float qwt = -0.5f*( q[1]*GX+q[2]*GY+q[3]*GZ);
+	float qxt =  0.5f*( q[0]*GX-q[3]*GY+q[2]*GZ);
+	float qyt =  0.5f*( q[3]*GX+q[0]*GY-q[1]*GZ);
+	float qzt =  0.5f*(-q[2]*GX+q[1]*GY+q[0]*GZ);
+	
 	// 更新四元数
-	q[0] += (qwt - Beta*et[0])*t;
-	q[1] += (qxt - Beta*et[1])*t;
-	q[2] += (qyt - Beta*et[2])*t;
-	q[3] += (qzt - Beta*et[3])*t;
+	q[0] += (qwt - beta*et[0])*t;
+	q[1] += (qxt - beta*et[1])*t;
+	q[2] += (qyt - beta*et[2])*t;
+	q[3] += (qzt - beta*et[3])*t;
 
 	// 四元数归一化
 	float q_norm = sqrt(q[0]*q[0] + q[1]*q[1] + q[2]*q[2] + q[3]*q[3]);

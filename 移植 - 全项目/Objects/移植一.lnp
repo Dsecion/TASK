@@ -1,4 +1,4 @@
---cpu=Cortex-M4.fp.sp
+--cpu=Cortex-M4.fp
 ".\objects\os_core.o"
 ".\objects\os_dbg_r.o"
 ".\objects\os_flag.o"
