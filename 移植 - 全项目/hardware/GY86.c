@@ -42,10 +42,10 @@
 
 #define HMC5883L_X_M 0x03
 #define HMC5883L_X_L 0x04
-#define HMC5883L_Y_M 0x05
-#define HMC5883L_Y_L 0x06
-#define HMC5883L_Z_M 0x07
-#define HMC5883L_Z_L 0x08
+#define HMC5883L_Y_M 0x07
+#define HMC5883L_Y_L 0x08
+#define HMC5883L_Z_M 0x05
+#define HMC5883L_Z_L 0x06
 
 
 
