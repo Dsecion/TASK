@@ -19,6 +19,14 @@ float roll = 0;
 float pitch = 0;
 float yaw = 0;
 
+
+
+// 情况3: 量程±16g的传感器
+float accel_offset_x = -12.3f;
+float accel_offset_y = 18.6f;
+float accel_offset_z = -5.4f;
+float accel_scale = 0.0012f;      // 对应约8192 LSB/g
+
 void Getdata(void){
 	int16_t Mx1, My1, Mz1;	// 磁力计原始数据
  	int16_t  AX1, AY1, AZ1, GX1, GY1, GZ1;	// 加速度计和陀螺仪原始数据
@@ -42,7 +50,23 @@ void Getdata(void){
 	Mz = Mz1 / sqrt(Mx1*Mx1+My1*My1+Mz1*Mz1);
 
 
-
+  float ax_cal = (AX1 - accel_offset_x) * accel_scale;
+  float ay_cal = (AY1 - accel_offset_y) * accel_scale;
+  float az_cal = (AZ1 - accel_offset_z) * accel_scale;
+	// 归一化加速度计数据，A /= ||A||
+	float norm = sqrt(ax_cal*ax_cal + ay_cal*ay_cal + az_cal*az_cal);
+    
+  if(norm > 0.001f) {
+        AX = ax_cal / norm;
+        AY = ay_cal / norm;
+        AZ = az_cal / norm;
+    } else {
+        // 异常处理
+        AX = 0;
+        AY = 0; 
+        AZ = 1.0f; // 默认指向Z轴
+    }
+    
 	// 归一化加速度计数据，A /= ||A||
 	AX = AX1 / sqrt(AX1*AX1+AY1*AY1+AZ1*AZ1);
 	AY = AY1 / sqrt(AX1*AX1+AY1*AY1+AZ1*AZ1);

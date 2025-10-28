@@ -60,54 +60,55 @@ void TASK_ShowGY86Data(void *p_arg){
    //     // 执行四元数融合算法
     Getdata();
        
-     //  int16_t q_roll = (int16_t)(roll*100);
-		 //  int16_t q_pitch = (int16_t)(pitch*100);
-		 //  int16_t q_yaw = (int16_t)(yaw*100)	;
-     //  // 按照通信帧格式发送四元数数据
-     //  int8_t frame_buffer[13];  // 完整帧缓冲区
-     //  uint8_t frame_index = 0;
-     // 
-     //  // 1. 帧头 (HEAD) - 0xAB
-     //  frame_buffer[frame_index++] = 0xAA;
-     //  
-     //  // 2. 源地址 (S_ADDR) - 设备ID，这里设为0x01
-     //  frame_buffer[frame_index++] = 0xFF;
-     //  
-     //  // 3. 目标地址 (D_ADDR) - 接收设备ID，这里设为0x02
-     //  frame_buffer[frame_index++] = 0x03;
-     //
-     //  // 5. 数据长度 (LEN) - 小端序，16字节
-     //  frame_buffer[frame_index++] = 0x07;        // 低字节
-		 //
-     //  memcpy(&frame_buffer[frame_index], &q_roll, 2);
-     //  frame_index += 2;
-     //  memcpy(&frame_buffer[frame_index], &q_pitch, 2); 
-     //  frame_index += 2;
-     //  memcpy(&frame_buffer[frame_index], &q_yaw, 2);
-     //  frame_index += 2; 
-		 //
-     //  frame_buffer[frame_index++] = (uint8_t)(0); 
-     //  // 7. 和校验 (SUM CHECK) 和 8. 附加校验 (ADD CHECK)
-     //  // 按照图片中的算法：SUM CHECK是累加校验，ADD CHECK是对SUM CHECK中间值的累加
-     //  uint8_t sum_check = 0;
-   		//uint8_t	add_check = 0;
-     //  for(int i = 1; i <= 10; i++) {  // 浠嶥_ADDR(绱㈠紩1)鍒癴usion_sta(绱㈠紩12)
-     //       sum_check += frame_buffer[i];
-     //  }
-     //  for(int i = 0; i <= 11; i++) {  // 浠嶩EAD鍒癝C
-     //      add_check += frame_buffer[i];
-     //  } 
-			//	sum_check &= 0xff;
-			//	add_check &= 0xff;
-     //  frame_buffer[frame_index++] = sum_check;
-     //  frame_buffer[frame_index] = add_check;
-     //  
-     //  // 发送完整帧
-     //  BLE_SendArray(frame_buffer, 13);
-
-				BLE_Printf("%.2f,%.2f,%.2f\n",roll,pitch,yaw);
-				
-				Delay_ms(10);
+    // int16_t q_roll = (int16_t)(roll*100);
+	  // int16_t q_pitch = (int16_t)(pitch*100);
+	  // int16_t q_yaw = (int16_t)(yaw*100)	;
+    // 
+    // int8_t frame_buffer[13];  
+    // uint8_t frame_index = 0;
+    // 
+    // // 1. 帧头 (HEAD) - 0xAB
+    // frame_buffer[frame_index++] = 0xAA;
+    // 
+    // // 2. 源地址 (S_ADDR) - 设备ID，这里设为0x01
+    // frame_buffer[frame_index++] = 0xFF;
+    // 
+    // // 3. 目标地址 (D_ADDR) - 接收设备ID，这里设为0x02
+    // frame_buffer[frame_index++] = 0x03;
+    // 
+    // // 5. 数据长度 (LEN) - 小端序，16字节
+    // frame_buffer[frame_index++] = 7;        // 低字节
+	  // 
+    // memcpy(&frame_buffer[frame_index], &q_roll, 2);
+    // frame_index += 2;
+    // memcpy(&frame_buffer[frame_index], &q_pitch, 2); 
+    // frame_index += 2;
+    // memcpy(&frame_buffer[frame_index], &q_yaw, 2);
+    // frame_index += 2; 
+	  // 
+    // frame_buffer[frame_index++] = (uint8_t)(2); 
+		// 
+    // uint8_t sum_check = 0;
+    // uint8_t	add_check = 0;
+    // for(int i = 1; i <= 10; i++) {  // 浠嶥_ADDR(绱㈠紩1)鍒癴usion_sta(绱㈠紩12)
+    //      sum_check += frame_buffer[i];
+	  //     add_check += sum_check;
+    // }
+    // 
+    // 
+    //    
+    // frame_buffer[frame_index++] = sum_check;
+    // frame_buffer[frame_index] = add_check;
+    // 
+    // // 发送完整帧
+    // BLE_SendArray(frame_buffer, 13);
+	  float q_roll =roll;
+		float q_pitch = pitch;
+		float q_yaw = yaw;
+		
+		BLE_Printf("%f, %f, %f\n",q_roll,q_pitch,q_yaw);
+		 
+	  Delay_ms(10);
 				
 
 				
