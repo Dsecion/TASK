@@ -11,12 +11,11 @@ typedef struct {
     int16_t z;  // 向量部分 k
 } Quaternion;
 
-extern float q[4];
-extern float t;
-extern float Beta;
-extern float roll;
-extern float pitch;
-extern float yaw;
+extern volatile float q[4]; 
+extern volatile float roll; 
+extern volatile float pitch;
+extern volatile float yaw;
+
 
 void Getdata(void);
 

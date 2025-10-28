@@ -8,12 +8,12 @@
 #define beta_max 5.0f
 #define beta_min 0.1f
 #define zeta 0.05f
+#define t  0.01f;
 
-float q[4]={1,0,0,0};
-float t = 0.01f;
-float roll = 0;
-float pitch = 0;
-float yaw = 0;
+volatile float q[4] = {1,0,0,0,};
+volatile float roll = 0 ;
+volatile float pitch=0;
+volatile float yaw=0;
 
 
 const float mag_kx = 0.98320f, mag_ky = 1.05344f, mag_kz = 0.96968;
@@ -179,25 +179,11 @@ void Getdata(void){
 		q[2] /= q_norm;
 		q[3] /= q_norm;
 		
-		float w = q[0];
-    float x = q[1];
-    float y = q[2];
-    float z = q[3];
+	roll = atan2(2.0f * (q[0] * q[1] + q[2] * q[3]), 1.0f - 2.0f * (q[1] * q[1] + q[2] * q[2]));
+  pitch = asin(2.0f * (q[0] * q[2] - q[3] * q[1]));
+  yaw = atan2(2.0f * (q[0] * q[3] + q[1] * q[2]), 1.0f - 2.0f * (q[2] * q[2] + q[3] * q[3]));
 
-    float sinr_cosp = 2.0f * (w * x + y * z);
-    float cosr_cosp = 1.0f - 2.0f * (x * x + y * y);
-
-    roll = atan2f(sinr_cosp, cosr_cosp);
-
-    float sinp = 2.0f * (w * y - z * x);
-    if(sinp >= 1.0f) sinp = 1.0f;
-    else if(sinp <= -1.0f) sinp = -1.0f;
-    pitch = asinf(sinp);
-
-
-    float siny_cosp = 2.0f * (w * z + x * y);
-    float cosy_cosp = 1.0f - 2.0f * (y * y + z * z);
-    yaw = atan2f(siny_cosp, cosy_cosp);
+		
 
 		
 	}
