@@ -4,7 +4,7 @@
 #include "stm32f4xx.h"                  // Device header
 #include "GY86.h"
 #include <math.h>
-
+#include "ATKBLE01.h"
 #define beta_max 5.0f
 #define beta_min 0.1f
 #define zeta 0.05f
@@ -15,36 +15,32 @@ volatile float roll = 0 ;
 volatile float pitch=0;
 volatile float yaw=0;
 
-
-//const float mag_kx = 0.98320f, mag_ky = 1.05344f, mag_kz = 0.96968;
-//const float mag_bx = 34.0f, mag_by = -51.0f, mag_bz = -105.0f;
-const float mag_kx = 1.0f, mag_ky = 1.0f, mag_kz = 1.0f;
-const float mag_bx = 0.0f, mag_by = 0.0f, mag_bz = 0.0f;
+const float mag_kx = 0.98320f, mag_ky = 1.05344f, mag_kz = 0.96968;
+const float mag_bx = 34.0f, mag_by = -51.0f, mag_bz = -105.0f;
 
 void Getdata(void){
-	int16_t Mx1, My1, Mz1;	// 磁力计原始数据
- 	int16_t  AX1, AY1, AZ1, GX1, GY1, GZ1;	// 加速度计和陀螺仪原始数据
+
     static float wBias_x = 0.0f, wBias_y = 0.0f, wBias_z = 0.0f;
 	static float beta = 0.0f;
-	float Mx = 0, My = 0, Mz = 0;	// 归一化后的磁力计数据
+	float Mx , My , Mz ;	// 归一化后的磁力计数据
 	float AX, AY, AZ;	// 归一化后的加速度计数据
 	float GX, GY, GZ;	// 陀螺仪数据
 	// float ge[3]= {0,0,1};
   	float gb[3];	// 机体坐标系下的重力加速度方向向量
   	float be[3];	// 地球坐标系下的磁场方向向量
   	float bb[3];	// 机体坐标系下的磁场方向向量
-	float et[4];	// 误差四元数
-
+	float et[4]={0,0,0,0};	// 误差四元数
+  int16_t Mx1, My1, Mz1;	// 磁力计原始数据
+  int16_t  AX1, AY1, AZ1, GX1, GY1, GZ1;	// 加速度计和陀螺仪原始数据
 	GY86_GetData(&Mx1, &My1, &Mz1, &AX1, &AY1, &AZ1, &GX1, &GY1, &GZ1);
+  BLE_Printf("%d%d%d\r\n",Mx1,My1,Mz1);
 
-  
 	// 归一化磁力计数据，M /= ||M||
-	 float use_mag = 1.0f;
-	 if(use_mag > 0.0f) {
+
 	     Mx = (Mx1 - mag_bx) * mag_kx;
        My = (My1 - mag_by) * mag_ky;
        Mz = (Mz1 - mag_bz) * mag_kz;
-	}
+	
 	// normalise mag data
 	float m_norm = sqrt(Mx * Mx + My * My + Mz * Mz);
 	 if(m_norm > 0.001f) {
@@ -54,9 +50,10 @@ void Getdata(void){
 	 }
 
 	// 归一化加速度计数据，A /= ||A||
-	AX = AX1 / sqrt(AX1*AX1+AY1*AY1+AZ1*AZ1);
-	AY = AY1 / sqrt(AX1*AX1+AY1*AY1+AZ1*AZ1);
-	AZ = AZ1 / sqrt(AX1*AX1+AY1*AY1+AZ1*AZ1);
+	 float a_norm = sqrt(AX1*AX1+AY1*AY1+AZ1*AZ1);
+	AX = AX1 / a_norm;
+	AY = AY1 / a_norm;
+	AZ = AZ1 / a_norm;
 
 	// 陀螺仪数据处理，W /= LSB
 	GX = (GX1/65.5)*(3.1415926/180);		

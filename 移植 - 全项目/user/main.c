@@ -10,7 +10,6 @@
 #include "MYIIC.h"
 #include "GY86.h"
 #include "ATKBLE01.h"
-#include "usart.h"
 #include "stdio.h"
 #include "SEGGER_SYSVIEW.h"
 #include "getdata.h"
@@ -28,11 +27,11 @@ int main(void){
 	//硬件初始化
 	PPM_Init();
 	PWM_Init();
-    GY86_Init();  
+	MyIIC_Init();
+   MPU6050_Init();  
+	HMC5883L_Init();
 	BLE_Init();
-	OLED_Init();
-	USART2_Init();  // 初始化USART2串口
-	
+		
 	OS_TRACE_INIT(); //systemview初始化
 	OS_TRACE_START(); //开始记录
 	OSInit();

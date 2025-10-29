@@ -28,3 +28,4 @@
 .\objects\gy86.o: .\library\inc\stm32f4xx_wwdg.h
 .\objects\gy86.o: .\library\inc\misc.h
 .\objects\gy86.o: hardware\MyIIC.h
+.\objects\gy86.o: hardware\GY86.h

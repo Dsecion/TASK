@@ -137,7 +137,7 @@ void TASK_ShowGY86Data(void *p_arg){
 	// 5. ̮³䐣ѩז½ڍ
 	tx_buffer[13] = sum_check; // º͐£ѩ
 	tx_buffer[14] = add_check; // ¸½¼Ӑ£ѩ
-  BLE_SendArray(tx_buffer, 15);
+ // BLE_SendArray(tx_buffer, 15);
 				
 	}
 	
