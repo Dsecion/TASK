@@ -52,3 +52,4 @@
 .\objects\main.o: .\hardware\GY86.h
 .\objects\main.o: .\hardware\ATKBLE01.h
 .\objects\main.o: .\hardware\usart.h
+.\objects\main.o: user\getdata.h

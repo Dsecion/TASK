@@ -8,7 +8,7 @@
 #define beta_max 5.0f
 #define beta_min 0.1f
 #define zeta 0.05f
-#define t  0.01f;
+#define t  0.01f
 
 volatile float q[4] = {1,0,0,0,};
 volatile float roll = 0 ;
@@ -16,15 +16,17 @@ volatile float pitch=0;
 volatile float yaw=0;
 
 
-const float mag_kx = 0.98320f, mag_ky = 1.05344f, mag_kz = 0.96968;
-const float mag_bx = 34.0f, mag_by = -51.0f, mag_bz = -105.0f;
+//const float mag_kx = 0.98320f, mag_ky = 1.05344f, mag_kz = 0.96968;
+//const float mag_bx = 34.0f, mag_by = -51.0f, mag_bz = -105.0f;
+const float mag_kx = 1.0f, mag_ky = 1.0f, mag_kz = 1.0f;
+const float mag_bx = 0.0f, mag_by = 0.0f, mag_bz = 0.0f;
 
 void Getdata(void){
 	int16_t Mx1, My1, Mz1;	// 磁力计原始数据
  	int16_t  AX1, AY1, AZ1, GX1, GY1, GZ1;	// 加速度计和陀螺仪原始数据
     static float wBias_x = 0.0f, wBias_y = 0.0f, wBias_z = 0.0f;
 	static float beta = 0.0f;
-	float Mx, My, Mz;	// 归一化后的磁力计数据
+	float Mx = 0, My = 0, Mz = 0;	// 归一化后的磁力计数据
 	float AX, AY, AZ;	// 归一化后的加速度计数据
 	float GX, GY, GZ;	// 陀螺仪数据
 	// float ge[3]= {0,0,1};
@@ -35,18 +37,21 @@ void Getdata(void){
 
 	GY86_GetData(&Mx1, &My1, &Mz1, &AX1, &AY1, &AZ1, &GX1, &GY1, &GZ1);
 
-
+  
 	// 归一化磁力计数据，M /= ||M||
-	
-	Mx1 = (Mx1 - mag_bx) * mag_kx;
-    My1 = (My1 - mag_by) * mag_ky;
-    Mz1 = (Mz1 - mag_bz) * mag_kz;
-
+	 float use_mag = 1.0f;
+	 if(use_mag > 0.0f) {
+	     Mx = (Mx1 - mag_bx) * mag_kx;
+       My = (My1 - mag_by) * mag_ky;
+       Mz = (Mz1 - mag_bz) * mag_kz;
+	}
 	// normalise mag data
-	float m_norm = sqrt(Mx1 * Mx1 + My1 * My1 + Mz1 * Mz1);
-	Mx /= m_norm;
-	My /= m_norm;
-	Mz /= m_norm;
+	float m_norm = sqrt(Mx * Mx + My * My + Mz * Mz);
+	 if(m_norm > 0.001f) {
+	    Mx /= m_norm;
+	    My /= m_norm;
+	    Mz /= m_norm;
+	 }
 
 	// 归一化加速度计数据，A /= ||A||
 	AX = AX1 / sqrt(AX1*AX1+AY1*AY1+AZ1*AZ1);
@@ -54,9 +59,9 @@ void Getdata(void){
 	AZ = AZ1 / sqrt(AX1*AX1+AY1*AY1+AZ1*AZ1);
 
 	// 陀螺仪数据处理，W /= LSB
-	GX = (GX1*3.1415926*180)/65.5;		
-	GY = (GY1*3.1415926*180)/65.5;	
-	GZ = (GZ1*3.1415926*180)/65.5;
+	GX = (GX1/65.5)*(3.1415926/180);		
+	GY = (GY1/65.5)*(3.1415926/180);	
+	GZ = (GZ1/65.5)*(3.1415926/180);
 
 	// 机体系下重力加速度方向向量（旋转矩阵*[0,0,1]T）
 	gb[0]= 2*(q[1]*q[3]-q[0]*q[2]);
