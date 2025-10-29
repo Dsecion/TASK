@@ -1,4 +1,5 @@
 .\objects\gy86.o: hardware\GY86.c
+.\objects\gy86.o: hardware\GY86.h
 .\objects\gy86.o: .\start\stm32f4xx.h
 .\objects\gy86.o: .\start\core_cm4.h
 .\objects\gy86.o: D:\Keil_v5\ARM\compile\Bin\..\include\stdint.h
@@ -27,5 +28,4 @@
 .\objects\gy86.o: .\library\inc\stm32f4xx_usart.h
 .\objects\gy86.o: .\library\inc\stm32f4xx_wwdg.h
 .\objects\gy86.o: .\library\inc\misc.h
-.\objects\gy86.o: hardware\MyIIC.h
-.\objects\gy86.o: hardware\GY86.h
+.\objects\gy86.o: .\user\Delay.h

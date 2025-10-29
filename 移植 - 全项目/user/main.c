@@ -27,8 +27,7 @@ int main(void){
 	//Ó²¼þ³õÊ¼»¯
 	PPM_Init();
 	PWM_Init();
-	MyIIC_Init();
-   MPU6050_Init();  
+  MPU6050_Init();  
 	HMC5883L_Init();
 	BLE_Init();
 		

@@ -45,5 +45,6 @@
 .\objects\getdata.o: .\library\inc\stm32f4xx_wwdg.h
 .\objects\getdata.o: .\library\inc\misc.h
 .\objects\getdata.o: .\hardware\GY86.h
+.\objects\getdata.o: .\user\Delay.h
 .\objects\getdata.o: D:\Keil_v5\ARM\compile\Bin\..\include\math.h
 .\objects\getdata.o: .\hardware\ATKBLE01.h

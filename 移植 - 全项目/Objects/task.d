@@ -46,9 +46,9 @@
 .\objects\task.o: .\library\inc\stm32f4xx_wwdg.h
 .\objects\task.o: .\library\inc\misc.h
 .\objects\task.o: .\hardware\GY86.h
+.\objects\task.o: .\user\Delay.h
 .\objects\task.o: .\hardware\OLED.h
 .\objects\task.o: .\hardware\PWM.h
 .\objects\task.o: user\getdata.h
 .\objects\task.o: .\hardware\ATKBLE01.h
 .\objects\task.o: D:\Keil_v5\ARM\compile\Bin\..\include\string.h
-.\objects\task.o: user\Delay.h

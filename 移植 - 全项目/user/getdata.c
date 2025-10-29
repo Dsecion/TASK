@@ -15,8 +15,8 @@ volatile float roll = 0 ;
 volatile float pitch=0;
 volatile float yaw=0;
 
-const float mag_kx = 0.98320f, mag_ky = 1.05344f, mag_kz = 0.96968;
-const float mag_bx = 34.0f, mag_by = -51.0f, mag_bz = -105.0f;
+const float mag_kx = 0.9917f, mag_ky = 1.0563f, mag_kz = 0.9665f;
+const float mag_bx = 246.0f, mag_by = -31.5f, mag_bz =  -177.5f;
 
 void Getdata(void){
 
@@ -27,20 +27,24 @@ void Getdata(void){
 	float GX, GY, GZ;	// 陀螺仪数据
 	// float ge[3]= {0,0,1};
   	float gb[3];	// 机体坐标系下的重力加速度方向向量
-  	float be[3];	// 地球坐标系下的磁场方向向量
+  	static float be[3];	// 地球坐标系下的磁场方向向量
+	be[0] = 1.0f;
+	be[2] = 0.0f;
   	float bb[3];	// 机体坐标系下的磁场方向向量
 	float et[4]={0,0,0,0};	// 误差四元数
-  int16_t Mx1, My1, Mz1;	// 磁力计原始数据
-  int16_t  AX1, AY1, AZ1, GX1, GY1, GZ1;	// 加速度计和陀螺仪原始数据
-	GY86_GetData(&Mx1, &My1, &Mz1, &AX1, &AY1, &AZ1, &GX1, &GY1, &GZ1);
-  BLE_Printf("%d%d%d\r\n",Mx1,My1,Mz1);
-
+	MPU6050_AccDataTypeDef A1;
+	MPU6050_GyroDataTypeDef G1;
+	HMC5883L_DataTypeDef M1;
+    MPU6050_GetAccData(&A1);
+	MPU6050_GetGyroData(&G1);
+	HMC5883L_GetData(&M1);
+//	BLE_Printf("%d,%d,%d\r\n", M1.Mag_X,M1.Mag_Y,M1.Mag_Z);
 	// 归一化磁力计数据，M /= ||M||
 
-	     Mx = (Mx1 - mag_bx) * mag_kx;
-       My = (My1 - mag_by) * mag_ky;
-       Mz = (Mz1 - mag_bz) * mag_kz;
-	
+	 Mx = (M1.Mag_X - mag_bx) * mag_kx;
+   My = (M1.Mag_Y - mag_by) * mag_ky;
+   Mz = (M1.Mag_Z - mag_bz) * mag_kz;
+
 	// normalise mag data
 	float m_norm = sqrt(Mx * Mx + My * My + Mz * Mz);
 	 if(m_norm > 0.001f) {
@@ -50,15 +54,15 @@ void Getdata(void){
 	 }
 
 	// 归一化加速度计数据，A /= ||A||
-	 float a_norm = sqrt(AX1*AX1+AY1*AY1+AZ1*AZ1);
-	AX = AX1 / a_norm;
-	AY = AY1 / a_norm;
-	AZ = AZ1 / a_norm;
+	 float a_norm = sqrt(A1.Acc_X*A1.Acc_X+A1.Acc_Y*A1.Acc_Y+A1.Acc_Z*A1.Acc_Z);
+	AX = A1.Acc_X / a_norm;
+	AY = A1.Acc_Y / a_norm;
+	AZ = A1.Acc_Z / a_norm;
 
 	// 陀螺仪数据处理，W /= LSB
-	GX = (GX1/65.5)*(3.1415926/180);		
-	GY = (GY1/65.5)*(3.1415926/180);	
-	GZ = (GZ1/65.5)*(3.1415926/180);
+	GX = (G1.Gyro_X/65.5)*(3.14159265359f/180.0f);		
+	GY = (G1.Gyro_Y/65.5)*(3.14159265359f/180.0f);	
+	GZ = (G1.Gyro_Z/65.5)*(3.14159265359f/180.0f);
 
 	// 机体系下重力加速度方向向量（旋转矩阵*[0,0,1]T）
 	gb[0]= 2*(q[1]*q[3]-q[0]*q[2]);
@@ -80,7 +84,8 @@ void Getdata(void){
 
 	// 处理be[1]方向的分量问题
 	be[0] = sqrt(be[0]*be[0]+be[1]*be[1]);
-	be[1] = 0;
+	//be[1] = 0;
+	
 	be[2] = be[2];
 
 	// 将处理后的be转回机体坐标系下，得到机体坐标系下的磁场方向向量
