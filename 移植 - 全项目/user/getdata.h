@@ -12,10 +12,14 @@ typedef struct {
 } Quaternion;
 
 extern volatile float q[4]; 
-extern volatile float roll; 
-extern volatile float pitch;
-extern volatile float yaw;
+extern volatile float roll;     // 横滚角 (rad)
+extern volatile float pitch;    // 俯仰角 (rad)
+extern volatile float yaw;      // 偏航角 (rad)
 
+// 角速度 (rad/s)
+extern volatile float gyro_roll;
+extern volatile float gyro_pitch;
+extern volatile float gyro_yaw;
 
 void Getdata(void);
 
