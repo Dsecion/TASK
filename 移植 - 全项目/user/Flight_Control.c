@@ -62,10 +62,7 @@ void Flight_Control(uint16_t *rc_data)
     
     // ========== 步骤1：处理遥控器输入 ==========
     // 读取并处理遥控器通道值
-    // 通道1: Roll（横滚）
-    // 通道2: Pitch（俯仰）
-    // 通道3: 油门值（PWM）
-    // 通道4: Yaw（偏航）
+    // 通道1: Roll（横滚）；通道2: Pitch（俯仰）；通道3: 油门值（PWM）；通道4: Yaw（偏航）
     roll_stick = rc_data[0] - RC_CENTER;
     pitch_stick = rc_data[1] - RC_CENTER;
     yaw_stick = rc_data[3] - RC_CENTER;

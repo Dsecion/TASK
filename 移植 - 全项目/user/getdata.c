@@ -15,6 +15,11 @@ volatile float roll = 0 ;
 volatile float pitch=0;
 volatile float yaw=0;
 
+// 角速度 (rad/s)
+volatile float gyro_roll = 0;
+volatile float gyro_pitch = 0;
+volatile float gyro_yaw = 0;
+
 
 //const float mag_kx = 0.98320f, mag_ky = 1.05344f, mag_kz = 0.96968;
 //const float mag_bx = 34.0f, mag_by = -51.0f, mag_bz = -105.0f;
@@ -62,6 +67,11 @@ void Getdata(void){
 	GX = (GX1/65.5)*(3.1415926/180);		
 	GY = (GY1/65.5)*(3.1415926/180);	
 	GZ = (GZ1/65.5)*(3.1415926/180);
+	
+	// 保存角速度数据供PID使用
+	gyro_roll = GX;
+	gyro_pitch = GY;
+	gyro_yaw = GZ;
 
 	// 机体系下重力加速度方向向量（旋转矩阵*[0,0,1]T）
 	gb[0]= 2*(q[1]*q[3]-q[0]*q[2]);
@@ -185,11 +195,8 @@ void Getdata(void){
 		q[3] /= q_norm;
 		
 	roll = atan2(2.0f * (q[0] * q[1] + q[2] * q[3]), 1.0f - 2.0f * (q[1] * q[1] + q[2] * q[2]));
-  pitch = asin(2.0f * (q[0] * q[2] - q[3] * q[1]));
-  yaw = atan2(2.0f * (q[0] * q[3] + q[1] * q[2]), 1.0f - 2.0f * (q[2] * q[2] + q[3] * q[3]));
+    pitch = asin(2.0f * (q[0] * q[2] - q[3] * q[1]));
+    yaw = atan2(2.0f * (q[0] * q[3] + q[1] * q[2]), 1.0f - 2.0f * (q[2] * q[2] + q[3] * q[3]));
 
-		
-
-		
 	}
 }
