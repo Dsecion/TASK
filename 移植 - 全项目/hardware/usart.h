@@ -19,6 +19,11 @@ void USART2_SendStr(char *str);
 // 发生数字，base为进制
 void USART2_SendNumber(int32_t num, uint8_t base);
 
+// 发送字节数组
+void USART2_SendArray(uint8_t *array, uint16_t length);
+
+
+
 // 接收字符串
 //void USART2_ReceiveString(char *buf, uint32_t max_len);
 

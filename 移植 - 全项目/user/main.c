@@ -10,8 +10,11 @@
 #include "MYIIC.h"
 #include "GY86.h"
 #include "ATKBLE01.h"
+#include "usart.h"
 #include "stdio.h"
 #include "SEGGER_SYSVIEW.h"
+#include "getdata.h"
+#include "Timer.h"
 
 #define  OS_TRACE_INIT()                             SEGGER_SYSVIEW_Conf()
 INT8U *pname;
@@ -26,9 +29,11 @@ int main(void){
 	//硬件初始化
 	PPM_Init();
 	PWM_Init();
+	TIM4_Init();
     GY86_Init();  
 	BLE_Init();
 	OLED_Init();
+	USART2_Init();  // 初始化USART2串口
 	
 	OS_TRACE_INIT(); //systemview初始化
 	OS_TRACE_START(); //开始记录
@@ -53,7 +58,7 @@ int main(void){
 	OSTaskNameGet(6, &pname, &err);
 	SEGGER_SYSVIEW_NameResource((U32)OSTCBPrioTbl[6], (const char *)pname);
 	OSStart();
-	
-	return 0;
+
+  return 0;
 	
 }

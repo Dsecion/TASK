@@ -16,7 +16,6 @@ void BLE_SendString(char *String);
 void BLE_SendNumber(uint32_t Number, uint8_t Length);
 void BLE_Printf(char *format, ...);
 
-
 #endif
 
 	

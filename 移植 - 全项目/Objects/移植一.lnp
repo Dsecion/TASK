@@ -1,4 +1,4 @@
---cpu=Cortex-M4.fp.sp
+--cpu=Cortex-M4.fp
 ".\objects\os_core.o"
 ".\objects\os_dbg_r.o"
 ".\objects\os_flag.o"
@@ -17,6 +17,9 @@
 ".\objects\task.o"
 ".\objects\main.o"
 ".\objects\delay.o"
+".\objects\getdata.o"
+".\objects\flight_control.o"
+".\objects\pid.o"
 ".\objects\myscratterload.o"
 ".\objects\led.o"
 ".\objects\usart.o"
@@ -26,6 +29,7 @@
 ".\objects\oled.o"
 ".\objects\ppm.o"
 ".\objects\pwm.o"
+".\objects\timer.o"
 ".\objects\misc.o"
 ".\objects\stm32f4xx_usart.o"
 ".\objects\stm32f4xx_gpio.o"

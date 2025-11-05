@@ -1,8 +1,8 @@
 .\objects\main.o: user\main.c
 .\objects\main.o: .\core\ucos_ii.h
 .\objects\main.o: .\ports\app_cfg.h
-.\objects\main.o: D:\Keil_v5\ARM\compile\Bin\..\include\stdarg.h
-.\objects\main.o: D:\Keil_v5\ARM\compile\Bin\..\include\stdio.h
+.\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\main.o: .\ports\os_cfg.h
 .\objects\main.o: .\ports\os_cpu.h
 .\objects\main.o: .\core\os_trace.h
@@ -16,13 +16,13 @@
 .\objects\main.o: .\core\ucos_ii.h
 .\objects\main.o: .\Trace\OS\Config\os_cfg_trace.h
 .\objects\main.o: user\Task.h
+.\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\main.o: .\start\stm32f4xx.h
 .\objects\main.o: .\start\core_cm4.h
-.\objects\main.o: D:\Keil_v5\ARM\compile\Bin\..\include\stdint.h
 .\objects\main.o: .\start\core_cmInstr.h
 .\objects\main.o: .\start\core_cmFunc.h
 .\objects\main.o: .\start\core_cmSimd.h
-.\objects\main.o: D:\Keil_v5\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h
+.\objects\main.o: C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.17.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h
 .\objects\main.o: .\library\inc\stm32f4xx_conf.h
 .\objects\main.o: .\library\inc\stm32f4xx_adc.h
 .\objects\main.o: .\start\stm32f4xx.h
@@ -51,3 +51,6 @@
 .\objects\main.o: .\hardware\MYIIC.h
 .\objects\main.o: .\hardware\GY86.h
 .\objects\main.o: .\hardware\ATKBLE01.h
+.\objects\main.o: .\hardware\usart.h
+.\objects\main.o: user\getdata.h
+.\objects\main.o: .\hardware\Timer.h

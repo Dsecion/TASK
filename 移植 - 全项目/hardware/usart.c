@@ -100,3 +100,12 @@ void USART2_SendNumber(int32_t num, uint8_t base) {
     }
 }
 
+//发送字节数组
+void USART2_SendArray(uint8_t *array, uint16_t length)
+{
+	uint16_t i;
+	for (i = 0; i < length; i++)
+	{
+		USART2_SendChar(array[i]);
+	}
+}
