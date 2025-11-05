@@ -9,6 +9,7 @@
 #include "PWM.h"
 #include "getdata.h"
 #include <math.h>
+#include <stdlib.h>
 
 // 外部PID控制器引用
 extern PID_Controller pid_roll_angle;

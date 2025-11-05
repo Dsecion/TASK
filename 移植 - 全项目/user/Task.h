@@ -2,6 +2,7 @@
 #define __TASK_H_
 
 #include "ucos_ii.h"
+#include "stdint.h"
 
 // RTOS–≈∫≈¡ø
 extern OS_EVENT *PPM_Sem;

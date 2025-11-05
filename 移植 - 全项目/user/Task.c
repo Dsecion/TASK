@@ -12,6 +12,7 @@
 #include "getdata.h"
 #include "Flight_Control.h"
 #include "ATKBLE01.h"
+#include "Timer.h"
 
 // ????????
 uint16_t Rc_Data[8];
@@ -127,6 +128,7 @@ void TASK_ChangeMotor(void *p_arg)
     
     // ?????
     PPM_Sem = OSSemCreate(0);
+	Control_Timer_Sem = OSSemCreate(0);//初始化PID频率控制（TIM4中断产生）的信号量
     
     // ???PID???
     PID_Controllers_Init();
@@ -134,7 +136,7 @@ void TASK_ChangeMotor(void *p_arg)
     while (1)
     {
         // ??PPM???8???????
-        OSSemPend(PPM_Sem, 0, &err);
+        OSSemPend(Control_Timer_Sem, 0, &err);
         
         if (err == OS_ERR_NONE) {
             // ??????

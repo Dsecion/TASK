@@ -14,6 +14,7 @@
 #include "stdio.h"
 #include "SEGGER_SYSVIEW.h"
 #include "getdata.h"
+#include "Timer.h"
 
 #define  OS_TRACE_INIT()                             SEGGER_SYSVIEW_Conf()
 INT8U *pname;
@@ -28,6 +29,7 @@ int main(void){
 	//Ó²¼þ³õÊ¼»¯
 	PPM_Init();
 	PWM_Init();
+	TIM4_Init();
     GY86_Init();  
 	BLE_Init();
 	OLED_Init();
