@@ -75,46 +75,45 @@ void TASK_ShowGY86Data(void *p_arg)
         Getdata();
 
         // ????????
-        Flight_Control_UpdateInnerLoop();
         
         // ?????BLE???
-        tx_buffer[0] = 0xAA;  // ??
-        tx_buffer[1] = 0xFF;  // ????
-        tx_buffer[2] = 0x04;  // ????
-        tx_buffer[3] = 9;     // ???????
-        
-        // ??????10000?????int16_t
-        v0 = (int16_t)(q[0] * 10000.0f);
-        v1 = (int16_t)(q[1] * 10000.0f);
-        v2 = (int16_t)(q[2] * 10000.0f);
-        v3 = (int16_t)(q[3] * 10000.0f);
-        
-        // ????????????????
-        tx_buffer[4] = (uint8_t)(v0 & 0xFF);
-        tx_buffer[5] = (uint8_t)(v0 >> 8);
-        tx_buffer[6] = (uint8_t)(v1 & 0xFF);
-        tx_buffer[7] = (uint8_t)(v1 >> 8);
-        tx_buffer[8] = (uint8_t)(v2 & 0xFF);
-        tx_buffer[9] = (uint8_t)(v2 >> 8);
-        tx_buffer[10] = (uint8_t)(v3 & 0xFF);
-        tx_buffer[11] = (uint8_t)(v3 >> 8);
-        
-        // ????
-        tx_buffer[12] = 1;
-        
-        // ?????????
-        sum_check = 0;
-        add_check = 0;
-        for (int i = 0; i < 13; i++) {
-            sum_check += tx_buffer[i];
-            add_check += sum_check;
-        }
-        
-        tx_buffer[13] = sum_check;
-        tx_buffer[14] = add_check;
-        
-        // ??BLE?????
-        BLE_SendArray(tx_buffer, 15);
+//        tx_buffer[0] = 0xAA;  // ??
+//        tx_buffer[1] = 0xFF;  // ????
+//        tx_buffer[2] = 0x04;  // ????
+//        tx_buffer[3] = 9;     // ???????
+//        
+//        // ??????10000?????int16_t
+//        v0 = (int16_t)(q[0] * 10000.0f);
+//        v1 = (int16_t)(q[1] * 10000.0f);
+//        v2 = (int16_t)(q[2] * 10000.0f);
+//        v3 = (int16_t)(q[3] * 10000.0f);
+//        
+//        // ????????????????
+//        tx_buffer[4] = (uint8_t)(v0 & 0xFF);
+//        tx_buffer[5] = (uint8_t)(v0 >> 8);
+//        tx_buffer[6] = (uint8_t)(v1 & 0xFF);
+//        tx_buffer[7] = (uint8_t)(v1 >> 8);
+//        tx_buffer[8] = (uint8_t)(v2 & 0xFF);
+//        tx_buffer[9] = (uint8_t)(v2 >> 8);
+//        tx_buffer[10] = (uint8_t)(v3 & 0xFF);
+//        tx_buffer[11] = (uint8_t)(v3 >> 8);
+//        
+//        // ????
+//        tx_buffer[12] = 1;
+//        
+//        // ?????????
+//        sum_check = 0;
+//        add_check = 0;
+//        for (int i = 0; i < 13; i++) {
+//            sum_check += tx_buffer[i];
+//            add_check += sum_check;
+//        }
+//        
+//        tx_buffer[13] = sum_check;
+//        tx_buffer[14] = add_check;
+//        
+//        // ??BLE?????
+//        BLE_SendArray(tx_buffer, 15);
     }
 }
 
@@ -145,5 +144,7 @@ void TASK_ChangeMotor(void *p_arg)
             // ??????????????
             Flight_Control_UpdateOuterLoop(Rc_Data);
         }
+				
+				Flight_Control_UpdateInnerLoop();
     }
 }

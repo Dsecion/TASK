@@ -1,11 +1,11 @@
 .\objects\timer.o: hardware\Timer.c
 .\objects\timer.o: .\start\stm32f4xx.h
 .\objects\timer.o: .\start\core_cm4.h
-.\objects\timer.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\timer.o: D:\Keil_v5\ARM\compile\Bin\..\include\stdint.h
 .\objects\timer.o: .\start\core_cmInstr.h
 .\objects\timer.o: .\start\core_cmFunc.h
 .\objects\timer.o: .\start\core_cmSimd.h
-.\objects\timer.o: C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.17.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h
+.\objects\timer.o: D:\Keil_v5\Packs\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h
 .\objects\timer.o: .\library\inc\stm32f4xx_conf.h
 .\objects\timer.o: .\library\inc\stm32f4xx_adc.h
 .\objects\timer.o: .\start\stm32f4xx.h
@@ -30,8 +30,8 @@
 .\objects\timer.o: hardware\Timer.h
 .\objects\timer.o: .\core\ucos_ii.h
 .\objects\timer.o: .\ports\app_cfg.h
-.\objects\timer.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
-.\objects\timer.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\timer.o: D:\Keil_v5\ARM\compile\Bin\..\include\stdarg.h
+.\objects\timer.o: D:\Keil_v5\ARM\compile\Bin\..\include\stdio.h
 .\objects\timer.o: .\ports\os_cfg.h
 .\objects\timer.o: .\ports\os_cpu.h
 .\objects\timer.o: .\core\os_trace.h
