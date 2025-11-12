@@ -8,7 +8,10 @@
 
 #include "stm32f4xx.h"
 
-// 函数声明
-void Flight_Control(uint16_t *rc_data);
+// 外环姿态更新（遥控器输入较低频率）
+void Flight_Control_UpdateOuterLoop(uint16_t *rc_data);
+
+// 内环角速度控制（传感器更新高频率）
+void Flight_Control_UpdateInnerLoop(void);
 
 #endif /* __FLIGHT_CONTROL_H_ */
