@@ -1,8 +1,8 @@
 .\objects\getdata.o: user\getdata.c
 .\objects\getdata.o: .\core\ucos_ii.h
 .\objects\getdata.o: .\ports\app_cfg.h
-.\objects\getdata.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
-.\objects\getdata.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\getdata.o: D:\Keil5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\objects\getdata.o: D:\Keil5\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\getdata.o: .\ports\os_cfg.h
 .\objects\getdata.o: .\ports\os_cpu.h
 .\objects\getdata.o: .\core\os_trace.h
@@ -18,11 +18,11 @@
 .\objects\getdata.o: .\core\os.h
 .\objects\getdata.o: .\start\stm32f4xx.h
 .\objects\getdata.o: .\start\core_cm4.h
-.\objects\getdata.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\getdata.o: D:\Keil5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\getdata.o: .\start\core_cmInstr.h
 .\objects\getdata.o: .\start\core_cmFunc.h
 .\objects\getdata.o: .\start\core_cmSimd.h
-.\objects\getdata.o: C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.17.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h
+.\objects\getdata.o: D:\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h
 .\objects\getdata.o: .\library\inc\stm32f4xx_conf.h
 .\objects\getdata.o: .\library\inc\stm32f4xx_adc.h
 .\objects\getdata.o: .\start\stm32f4xx.h
@@ -46,5 +46,5 @@
 .\objects\getdata.o: .\library\inc\misc.h
 .\objects\getdata.o: .\hardware\GY86.h
 .\objects\getdata.o: .\user\Delay.h
-.\objects\getdata.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\getdata.o: D:\Keil5\ARM\ARMCC\Bin\..\include\math.h
 .\objects\getdata.o: .\hardware\ATKBLE01.h

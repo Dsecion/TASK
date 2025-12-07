@@ -770,10 +770,10 @@ ARM Macro Assembler    Page 12
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
 erwork --depend=.\objects\startup_stm32f401xx.d -o.\objects\startup_stm32f401xx
-.o -I.\RTE\_Target_1 -IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.17.0\Drivers\CM
-SIS\Device\ST\STM32F4xx\Include -IC:\Keil_v5\ARM\CMSIS\Include --predefine="__U
-VISION_VERSION SETA 524" --predefine="STM32F401xE SETA 1" --list=.\listings\sta
-rtup_stm32f401xx.lst start\startup_stm32f401xx.s
+.o -I.\RTE\_Target_1 -ID:\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSI
+S\Device\ST\STM32F4xx\Include -ID:\Keil5\ARM\CMSIS\Include --predefine="__EVAL 
+SETA 1" --predefine="__UVISION_VERSION SETA 524" --predefine="STM32F401xE SETA 
+1" --list=.\listings\startup_stm32f401xx.lst start\startup_stm32f401xx.s
 
 
 
@@ -1644,4 +1644,4 @@ Symbol: myScatterLoad
       At line 190 in file start\startup_stm32f401xx.s
 Comment: myScatterLoad used once
 4 symbols
-424 symbols in table
+425 symbols in table

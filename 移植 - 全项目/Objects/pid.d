@@ -2,11 +2,11 @@
 .\objects\pid.o: user\PID.h
 .\objects\pid.o: .\start\stm32f4xx.h
 .\objects\pid.o: .\start\core_cm4.h
-.\objects\pid.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\pid.o: D:\Keil5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\pid.o: .\start\core_cmInstr.h
 .\objects\pid.o: .\start\core_cmFunc.h
 .\objects\pid.o: .\start\core_cmSimd.h
-.\objects\pid.o: C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.17.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h
+.\objects\pid.o: D:\Keil5\ARM\PACK\Keil\STM32F4xx_DFP\2.17.1\Drivers\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h
 .\objects\pid.o: .\library\inc\stm32f4xx_conf.h
 .\objects\pid.o: .\library\inc\stm32f4xx_adc.h
 .\objects\pid.o: .\start\stm32f4xx.h
@@ -29,4 +29,4 @@
 .\objects\pid.o: .\library\inc\stm32f4xx_wwdg.h
 .\objects\pid.o: .\library\inc\misc.h
 .\objects\pid.o: user\PID_Config.h
-.\objects\pid.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\pid.o: D:\Keil5\ARM\ARMCC\Bin\..\include\string.h

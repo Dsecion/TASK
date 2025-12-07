@@ -99,17 +99,11 @@ void PWM_SetCompareAll(uint16_t Compare)
 void PWM_Motor_Mixing(float throttle, float roll_output, float pitch_output, float yaw_output)
 {
     int16_t motor1, motor2, motor3, motor4;
-    
-    // X型四旋翼混控算法
-    // M1(前右): Roll-, Pitch+, Yaw- (顺时针)
-    // M2(后右): Roll-, Pitch-, Yaw+ (逆时针)
-    // M3(后左): Roll+, Pitch-, Yaw- (顺时针)
-    // M4(前左): Roll+, Pitch+, Yaw+ (逆时针)
-    
-    motor1 = (int16_t)(throttle - roll_output + pitch_output - yaw_output);
-    motor2 = (int16_t)(throttle - roll_output - pitch_output + yaw_output);
-    motor3 = (int16_t)(throttle + roll_output - pitch_output - yaw_output);
-    motor4 = (int16_t)(throttle + roll_output + pitch_output + yaw_output);
+
+    motor1 = (int16_t)(throttle - pitch_output + roll_output - yaw_output);
+    motor2 = (int16_t)(throttle - pitch_output - roll_output + yaw_output);
+    motor3 = (int16_t)(throttle + pitch_output - roll_output - yaw_output);
+    motor4 = (int16_t)(throttle + pitch_output + roll_output + yaw_output);
     
     // 输出到电机
     PWM_SetMotor1((uint16_t)motor1);
