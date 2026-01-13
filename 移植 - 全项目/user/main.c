@@ -13,8 +13,9 @@
 #include "stdio.h"
 #include "SEGGER_SYSVIEW.h"
 #include "getdata.h"
+#include "ADC.h"
 
-#define  OS_TRACE_INIT()                             SEGGER_SYSVIEW_Conf()
+// #define  OS_TRACE_INIT()  SEGGER_SYSVIEW_Conf()
 INT8U *pname;
 INT8U err;
 
@@ -27,18 +28,21 @@ int main(void){
 	//硬件初始化
 	PPM_Init();
 	PWM_Init();
-  MPU6050_Init();  
+    MPU6050_Init();  
 	HMC5883L_Init();
 	BLE_Init();
+	ADC_User_Init();
 		
 	OS_TRACE_INIT(); //systemview初始化
 	OS_TRACE_START(); //开始记录
 	OSInit();
 	
+	PWM_SetCompareAll(2000);
+    Delay_s(3);
+	PWM_SetCompareAll(1000);
+    Delay_s(1);
 	
-	//电调解锁
-  PWM_SetCompareAll(1000);
-  Delay_s(1);
+
 	
 	//任务创建
 	OSTaskCreate(TASK_ChangeMotor,(void*)0,(OS_STK*)&TASK_ChangeMotorstk[APP_CFG_STARTUP_TASK_STK_SIZE-1], 5);
@@ -55,6 +59,6 @@ int main(void){
 	SEGGER_SYSVIEW_NameResource((U32)OSTCBPrioTbl[6], (const char *)pname);
 	OSStart();
 
-  return 0;
+    return 0;
 	
 }

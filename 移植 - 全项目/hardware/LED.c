@@ -14,10 +14,8 @@ void LED_Init() {
     RCC_AHB1ENR |= 0x01;
     GPIOA_MODER &= ~(0x03 << 10);
     GPIOA_MODER |= 0x01 << 10;
-	  GPIOA_OTYPER &= ~(1<<5);
-	  GPIOA_OSPEEDER |=(0x03 << 10);
-	
-	
+	GPIOA_OTYPER &= ~(1<<5);
+	GPIOA_OSPEEDER |=(0x03 << 10);
 }
 
 void LED_ON(void) {

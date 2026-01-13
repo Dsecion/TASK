@@ -134,7 +134,7 @@
             <RunIndependent>0</RunIndependent>
             <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
             <Capability>1</Capability>
-            <DriverSelection>4100</DriverSelection>
+            <DriverSelection>4099</DriverSelection>
           </Flash1>
           <bUseTDR>1</bUseTDR>
           <Flash2>Segger\JL2CM3.dll</Flash2>
@@ -830,6 +830,16 @@
               <FileType>5</FileType>
               <FilePath>.\hardware\PWM.h</FilePath>
             </File>
+            <File>
+              <FileName>ADC.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\hardware\ADC.c</FilePath>
+            </File>
+            <File>
+              <FileName>ADC.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\hardware\ADC.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -899,6 +909,16 @@
               <FileName>stm32f4xx_tim.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\library\inc\stm32f4xx_tim.h</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_adc.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\library\inc\stm32f4xx_adc.h</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_adc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\library\src\stm32f4xx_adc.c</FilePath>
             </File>
           </Files>
         </Group>

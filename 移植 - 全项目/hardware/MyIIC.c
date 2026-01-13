@@ -88,7 +88,7 @@ void MyIIC_SendACK(uint8_t AckBit){
 
 uint8_t MyIIC_ReceiveACK(void){
 	uint8_t AckBit;
-  MyIIC_W_SDA(1);
+    MyIIC_W_SDA(1);
 	MyIIC_W_SCL(1);
 	AckBit = MyIIC_R_SDA();
 	MyIIC_W_SCL(0);

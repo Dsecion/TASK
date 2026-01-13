@@ -27,9 +27,9 @@ void Getdata(void){
 
     static float wBias_x = 0.0f, wBias_y = 0.0f, wBias_z = 0.0f;
 	static float beta = 0.0f;
-	float Mx , My , Mz ;	// 归一化后的磁力计数据
-	float AX, AY, AZ;	// 归一化后的加速度计数据
-	float GX, GY, GZ;	// 陀螺仪数据
+	float Mx , My, Mz ;	// 归一化后的磁力计数据
+	float AX , AY, AZ;	// 归一化后的加速度计数据
+	float GX , GY, GZ;	// 陀螺仪数据
 	// float ge[3]= {0,0,1};
   	float gb[3];	// 机体坐标系下的重力加速度方向向量
   	static float be[3];	// 地球坐标系下的磁场方向向量
@@ -198,11 +198,7 @@ void Getdata(void){
 		q[3] /= q_norm;
 		
 	roll = atan2(2.0f * (q[0] * q[1] + q[2] * q[3]), 1.0f - 2.0f * (q[1] * q[1] + q[2] * q[2]));
-  pitch = asin(2.0f * (q[0] * q[2] - q[3] * q[1]));
-  yaw = atan2(2.0f * (q[0] * q[3] + q[1] * q[2]), 1.0f - 2.0f * (q[2] * q[2] + q[3] * q[3]));
-
-		
-
-		
+    pitch = asin(2.0f * (q[0] * q[2] - q[3] * q[1]));
+    yaw = atan2(2.0f * (q[0] * q[3] + q[1] * q[2]), 1.0f - 2.0f * (q[2] * q[2] + q[3] * q[3]));		
 	}
 }

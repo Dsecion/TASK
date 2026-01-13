@@ -1,6 +1,8 @@
 #include "stm32f4xx.h"
 #include "stm32f4xx_rcc.h"
 #include "PID_Config.h"
+#include "ADC.h"
+#include "ATKBLE01.h"
 
 void PWM_Init(void)
 	{
@@ -95,20 +97,60 @@ void PWM_SetCompareAll(uint16_t Compare)
 	TIM_SetCompare4(TIM3, Compare);
 }
 
-
 void PWM_Motor_Mixing(float throttle, float roll_output, float pitch_output, float yaw_output)
 {
-    int16_t motor1, motor2, motor3, motor4;
+    float motor1, motor2, motor3, motor4;
+    // float max_val, min_val, diff;
 
-    motor1 = (int16_t)(throttle - pitch_output + roll_output - yaw_output);
-    motor2 = (int16_t)(throttle - pitch_output - roll_output + yaw_output);
-    motor3 = (int16_t)(throttle + pitch_output - roll_output - yaw_output);
-    motor4 = (int16_t)(throttle + pitch_output + roll_output + yaw_output);
+    // 基础混控
+    motor1 = throttle - pitch_output + roll_output - yaw_output;
+    motor2 = throttle - pitch_output - roll_output + yaw_output;
+    motor3 = throttle + pitch_output - roll_output - yaw_output;
+    motor4 = throttle + pitch_output + roll_output + yaw_output;
+
+    // // --- 混控饱和处理 (Mixer Saturation Handling) ---
     
-    // 输出到电机
+    // // 1. 下限饱和处理：防止电机停转，确保同侧电机同时启动
+    // // 找出最小的电机输出
+    // min_val = motor1;
+    // if (motor2 < min_val) min_val = motor2;
+    // if (motor3 < min_val) min_val = motor3;
+    // if (motor4 < min_val) min_val = motor4;
+
+    // // 如果最小值低于电机最低限位 (MOTOR_MIN)，则整体抬升，保持差值不变
+    // if (min_val < MOTOR_MIN)
+    // {
+    //     diff = MOTOR_MIN - min_val;
+    //     motor1 += diff;
+    //     motor2 += diff;
+    //     motor3 += diff;
+    //     motor4 += diff;
+    // }
+
+    // // 2. 上限饱和处理：电池低电量或大动态时，优先保证姿态控制
+    // // 找出最大的电机输出
+    // max_val = motor1;
+    // if (motor2 > max_val) max_val = motor2;
+    // if (motor3 > max_val) max_val = motor3;
+    // if (motor4 > max_val) max_val = motor4;
+
+    // // 如果最大值超过电机最大限位 (MOTOR_MAX)，则整体降低，保持差值不变
+    // // 这样会导致总推力下降（油门减小），但能维持姿态平衡，符合"转速同时慢慢减少"的要求
+    // if (max_val > MOTOR_MAX)
+    // {
+    //     diff = max_val - MOTOR_MAX;
+    //     motor1 -= diff;
+    //     motor2 -= diff;
+    //     motor3 -= diff;
+    //     motor4 -= diff;
+    // }
+
+	
+	BLE_Printf("motor1: %d, motor2: %d, motor3: %d, motor4: %d\r\n", motor1, motor2, motor3, motor4);
+
+    // 输出到电机 (强制类型转换)
     PWM_SetMotor1((uint16_t)motor1);
     PWM_SetMotor2((uint16_t)motor2);
     PWM_SetMotor3((uint16_t)motor3);
     PWM_SetMotor4((uint16_t)motor4);
 }
-

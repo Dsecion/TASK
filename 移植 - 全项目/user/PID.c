@@ -10,16 +10,6 @@ PID_Controller pid_roll_rate;
 PID_Controller pid_pitch_rate;
 PID_Controller pid_yaw_rate;
 
-/**
- * @brief  PID控制器初始化
- * @param  pid: PID控制器指针
- * @param  kp: 比例系数
- * @param  ki: 积分系数
- * @param  kd: 微分系数
- * @param  out_max: 输出最大值
- * @param  out_min: 输出最小值
- * @param  integral_max: 积分限幅
- */
 void PID_Init(PID_Controller *pid, float kp, float ki, float kd, 
               float out_max, float out_min, float integral_max)
 {
@@ -34,13 +24,6 @@ void PID_Init(PID_Controller *pid, float kp, float ki, float kd,
     pid->integral_max = integral_max;
 }
 
-/**
- * @brief  PID计算
- * @param  pid: PID控制器指针
- * @param  setpoint: 目标值
- * @param  measurement: 测量值
- * @retval PID输出值
- */
 float PID_Calculate(PID_Controller *pid, float setpoint, float measurement)
 {
     // 计算误差
@@ -75,10 +58,6 @@ float PID_Calculate(PID_Controller *pid, float setpoint, float measurement)
     return pid->output;
 }
 
-/**
- * @brief  重置PID控制器
- * @param  pid: PID控制器指针
- */
 void PID_Reset(PID_Controller *pid)
 {
     pid->error = 0;
@@ -88,10 +67,6 @@ void PID_Reset(PID_Controller *pid)
     pid->output = 0;
 }
 
-/**
- * @brief  初始化所有PID控制器
- * @note   参数从PID_Config.h读取
- */
 void PID_Controllers_Init(void)
 {
     // 角度外环PID初始化

@@ -8,6 +8,7 @@
 #include "PID.h"
 #include "PWM.h"
 #include "getdata.h"
+#include "ADC.h"
 #include <math.h>
 #include <stdlib.h>
 
@@ -35,6 +36,10 @@ static volatile float roll_rate_target = 0.0f;
 static volatile float pitch_rate_target = 0.0f;
 static volatile float yaw_rate_target_cmd = 0.0f;
 
+// 电池保护阈值 (3S锂电池)
+#define BATTERY_CRITICAL_VOLTAGE 10.0f 
+#define BATTERY_LANDING_THROTTLE_CAP 1450.0f
+
 static void Flight_Control_ResetState(void)
 {
     PID_Reset(&pid_roll_angle);
@@ -51,6 +56,21 @@ static void Flight_Control_ResetState(void)
     roll_rate_target = 0.0f;
     pitch_rate_target = 0.0f;
     yaw_rate_target_cmd = 0.0f;
+}
+
+/**
+ * @brief  信号丢失处理（失控保护）
+ */
+void Flight_Control_ProcessSignalLoss(void)
+{
+    control_enabled = 0;
+    is_motor_started = 0;
+    
+    // 复位状态
+    Flight_Control_ResetState();
+    
+    // 立即停止电机
+    PWM_SetCompareAll(MOTOR_MIN);
 }
 
 /**
@@ -121,12 +141,20 @@ void Flight_Control_UpdateOuterLoop(uint16_t *rc_data)
 
     throttle_command = throttle_input;
 
+    // // --- 低电量保护逻辑 ---
+    // float v_curr = Get_Battery_Voltage();
+    // if (v_curr > 7.0f && v_curr < BATTERY_CRITICAL_VOLTAGE && is_motor_started) {
+    //     // 限制最大油门值，确保不会因为电流过大拉低电压
+    //     if (throttle_command > BATTERY_LANDING_THROTTLE_CAP) {
+    //         throttle_command = BATTERY_LANDING_THROTTLE_CAP;
+    //     }
+    // }
+
     // 将遥控器输入转换为目标角度（弧度）
     roll_angle_target = (roll_stick / RC_RANGE) * ANGLE_MAX_RAD;
     pitch_angle_target = (pitch_stick / RC_RANGE) * ANGLE_MAX_RAD;
     yaw_rate_target = (yaw_stick / RC_RANGE) * YAW_RATE_MAX;
 
-    // 使用 Madgwick 姿态解算得到的当前姿态
     roll_rate_target = PID_Calculate(&pid_roll_angle, roll_angle_target, roll);
     pitch_rate_target = PID_Calculate(&pid_pitch_angle, pitch_angle_target, pitch);
 
@@ -159,6 +187,18 @@ void Flight_Control_UpdateInnerLoop(void)
     roll_output = PID_Calculate(&pid_roll_rate, roll_rate_target, gyro_roll);
     pitch_output = PID_Calculate(&pid_pitch_rate, pitch_rate_target, gyro_pitch);
     yaw_output = PID_Calculate(&pid_yaw_rate, yaw_rate_target_cmd, gyro_yaw);
+
+    // // --- 电压补偿 ---
+    // float v_scale = Get_Voltage_Scale();
+    
+    // // 补偿油门（仅补偿有效行程部分）
+    // float throttle_active = throttle_command - MOTOR_MIN;
+    // float throttle_compensated = MOTOR_MIN + throttle_active * v_scale;
+    
+    // // 补偿PID输出
+    // roll_output *= v_scale;
+    // pitch_output *= v_scale;
+    // yaw_output *= v_scale;
 
     PWM_Motor_Mixing(throttle_command, roll_output, pitch_output, yaw_output);
 }

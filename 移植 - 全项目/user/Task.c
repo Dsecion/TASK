@@ -91,76 +91,75 @@ void TIM2_IRQHandler(void)
 }
 
 
-
-
 void TASK_ShowGY86Data(void *p_arg){
-    
     while(1){
 		Getdata();
-    
-  //uint8_t tx_buffer[15];
-  //tx_buffer[0] = 0xAA;
-	//
-	//tx_buffer[1] = 0xFF; // Ŀ±굘ַ (0xFF Ϊ¹㲥) [cite: 90, 426]
-	//tx_buffer[2] = 0x04; // ¹¦Ĝ« (·ɿؗˌ¬:˄Ԫʽ¸񊽩
-	//tx_buffer[3] = 9;	 // ʽ¾ݳ¤¶Ƞ(V0,V1,V2,V3,FUSION_STA)
-	//
-	//// 3. ̮³䊽¾݄ڈݠ(DATAǸ)
-	//
-	//// a. ½« float ת»»Ϊ int16_t (°´ЭҩÀ©´󱰰00±¶)
-	//int16_t v0 = (int16_t)(q[0] * 10000.0f);
-	//int16_t v1 = (int16_t)(q[1] * 10000.0f);
-	//int16_t v2 = (int16_t)(q[2] * 10000.0f);
-	//int16_t v3 = (int16_t)(q[3] * 10000.0f);
-	//
-	//// b. °´С¶˄£ʽ(µֽ͗ڔڇ°)̮³䊽¾ݍ
-	//tx_buffer[4] = (uint8_t)(v0 & 0xFF);  // V0 low byte
-	//tx_buffer[5] = (uint8_t)(v0 >> 8);	  // V0 high byte
-	//tx_buffer[6] = (uint8_t)(v1 & 0xFF);  // V1 low byte
-	//tx_buffer[7] = (uint8_t)(v1 >> 8);	  // V1 high byte
-	//tx_buffer[8] = (uint8_t)(v2 & 0xFF);  // V2 low byte
-	//tx_buffer[9] = (uint8_t)(v2 >> 8);	  // V2 high byte
-	//tx_buffer[10] = (uint8_t)(v3 & 0xFF); // V3 low byte
-	//tx_buffer[11] = (uint8_t)(v3 >> 8);	  // V3 high byte
-	//
-	//// c. ̮³䈚ºϗ´̬
-	//tx_buffer[12] = 2; // FUSION_STA [cite: 92]
-	//
-	//// 4. ¼Ƌ㐣ѩº͍
-	//// Уѩ·¶Χ£º´Ӡ0xAA µ½ DATAǸ ½ኸ (¹² 13 ז½ں 4 + 9 = 13)
-	//uint8_t sum_check = 0;
-	//uint8_t add_check = 0;
-	//
-	//// я¸񰴕Ր­ҩV7.16 P4ҳµĊ¾Àý´ú«½øАУѩ [cite: 21, 23, 27-35]
-	//for (int i = 0; i < (tx_buffer[3] + 4); i++) // tx_buffer[3] + 4 = 9 + 4 = 13
-	//{
-	//	sum_check += tx_buffer[i];
-	//	add_check += sum_check;
-	//}
-	//
-	//tx_buffer[13] = sum_check; // º͐£ѩ
-	//tx_buffer[14] = add_check; // ¸½¼Ӑ£ѩ
-  //BLE_SendArray(tx_buffer, 15);
-				
+
+//		uint8_t tx_buffer[15];
+//		tx_buffer[0] = 0xAA;
+//		
+//		tx_buffer[1] = 0xFF; // ???? (0xFF ???)
+//		tx_buffer[2] = 0x04; // ??? (??????)
+//		tx_buffer[3] = 9;	 // ????(q0,q1,q2,q3,FUSION_STA)
+//		
+//		// 3. ?????(DATA?)
+//		
+//		// a. ? float ??? int16_t (??10000?????)
+//		int16_t v0 = (int16_t)(q[0] * 10000.0f);
+//		int16_t v1 = (int16_t)(q[1] * 10000.0f);
+//		int16_t v2 = (int16_t)(q[2] * 10000.0f);
+//		int16_t v3 = (int16_t)(q[3] * 10000.0f);
+//		
+//		// b. ?????(?????)????
+//		tx_buffer[4] = (uint8_t)(v0 & 0xFF);  // V0 low byte
+//		tx_buffer[5] = (uint8_t)(v0 >> 8);	  // V0 high byte
+//		tx_buffer[6] = (uint8_t)(v1 & 0xFF);  // V1 low byte
+//		tx_buffer[7] = (uint8_t)(v1 >> 8);	  // V1 high byte
+//		tx_buffer[8] = (uint8_t)(v2 & 0xFF);  // V2 low byte
+//		tx_buffer[9] = (uint8_t)(v2 >> 8);	  // V2 high byte
+//		tx_buffer[10] = (uint8_t)(v3 & 0xFF); // V3 low byte
+//		tx_buffer[11] = (uint8_t)(v3 >> 8);	  // V3 high byte
+//		
+//		// c. ??????
+//		tx_buffer[12] = 2; // FUSION_STA
+//		
+//		// 4. ?????
+//		// ?????0xAA ? DATA? ?? (? 13 ??: 4 + 9 = 13)
+//		uint8_t sum_check = 0;
+//		uint8_t add_check = 0;
+//		
+//		// ????????????
+//		for (int i = 0; i < (tx_buffer[3] + 4); i++) // tx_buffer[3] + 4 = 9 + 4 = 13
+//		{
+//			sum_check += tx_buffer[i];
+//			add_check += sum_check;
+//		}
+//		
+//		tx_buffer[13] = sum_check; // ????
+//		tx_buffer[14] = add_check; // ??????
+//		BLE_SendArray(tx_buffer, 15);
 	}
-	
 }
 
 void TASK_ChangeMotor(void *p_arg){
-	
-    PPM_Sem = OSSemCreate(0);
-	  PID_Controllers_Init();
+	PPM_Sem = OSSemCreate(0);
+	PID_Controllers_Init();
     while(1){
 		INT8U err;
-        // �ȴ��ź���
-        OSSemPend(PPM_Sem, 0, &err); 
-        // ��ȡ���ݷ���Ȩ
-
-        // ���õ��ת��
-		if(err==OS_ERR_NONE){
-			
+        // ??PPM??????200ms?? (200 ticks)
+        OSSemPend(PPM_Sem, 200, &err); 
+        
+		if(err == OS_ERR_NONE){
+            // ???????????????
 			Flight_Control_UpdateOuterLoop(Rc_Data);
 		}
+        else if(err == OS_ERR_TIMEOUT)
+        {
+            // ?????PPM??????????????????
+            Flight_Control_ProcessSignalLoss();
+        }
+
+        // ????????????????????????????
 		Flight_Control_UpdateInnerLoop();
     }
 	

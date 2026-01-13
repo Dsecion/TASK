@@ -32,5 +32,6 @@
 .\objects\flight_control.o: user\PID.h
 .\objects\flight_control.o: .\hardware\PWM.h
 .\objects\flight_control.o: user\getdata.h
+.\objects\flight_control.o: .\hardware\ADC.h
 .\objects\flight_control.o: D:\Keil5\ARM\ARMCC\Bin\..\include\math.h
 .\objects\flight_control.o: D:\Keil5\ARM\ARMCC\Bin\..\include\stdlib.h

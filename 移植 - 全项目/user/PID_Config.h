@@ -6,19 +6,19 @@
  ******************************************************************************/
 
 // Roll轴（横滚）角度环
-#define ANGLE_ROLL_KP           0.0f    // 比例系数
-#define ANGLE_ROLL_KI           0.0f    // 积分系数
+#define ANGLE_ROLL_KP           6.0f    // 比例系数
+#define ANGLE_ROLL_KI           0.1f    // 积分系数
 #define ANGLE_ROLL_KD           0.0f    // 微分系数
-#define ANGLE_ROLL_OUTPUT_MAX   5.0f    // 输出最大值（rad/s）
-#define ANGLE_ROLL_OUTPUT_MIN  -5.0f    // 输出最小值（rad/s）
+#define ANGLE_ROLL_OUTPUT_MAX   3.0f    // 输出最大值（rad/s）
+#define ANGLE_ROLL_OUTPUT_MIN  -3.0f    // 输出最小值（rad/s）
 #define ANGLE_ROLL_INTEGRAL_MAX 10.0f   // 积分限幅
 
 // Pitch轴（俯仰）角度环
-#define ANGLE_PITCH_KP          5.0f
-#define ANGLE_PITCH_KI          0.0f
+#define ANGLE_PITCH_KP          6.0f
+#define ANGLE_PITCH_KI          0.1f
 #define ANGLE_PITCH_KD          0.0f
-#define ANGLE_PITCH_OUTPUT_MAX  5.0f
-#define ANGLE_PITCH_OUTPUT_MIN -5.0f
+#define ANGLE_PITCH_OUTPUT_MAX  3.0f
+#define ANGLE_PITCH_OUTPUT_MIN -3.0f
 #define ANGLE_PITCH_INTEGRAL_MAX 10.0f
 
 // Yaw轴（偏航）角度环
@@ -34,17 +34,17 @@
  ******************************************************************************/
 
 // Roll轴（横滚）角速度环
-#define RATE_ROLL_KP            0.0f   // 比例系数 (提高响应灵敏度)
-#define RATE_ROLL_KI            0.0f    // 积分系数 (增加积分项以消除静差和启动延迟)
-#define RATE_ROLL_KD            0.0f    // 微分系数
+#define RATE_ROLL_KP           -25.0f   // 比例系数
+#define RATE_ROLL_KI            0.0f    // 积分系数
+#define RATE_ROLL_KD            150.0f    // 微分系数
 #define RATE_ROLL_OUTPUT_MAX    400.0f  // 输出最大值（PWM增量）
 #define RATE_ROLL_OUTPUT_MIN   -400.0f  // 输出最小值（PWM增量）
 #define RATE_ROLL_INTEGRAL_MAX  50.0f   // 积分限幅
 
 // Pitch轴（俯仰）角速度环
-#define RATE_PITCH_KP           30.0f
+#define RATE_PITCH_KP           25.0f
 #define RATE_PITCH_KI           0.0f
-#define RATE_PITCH_KD           40.0f
+#define RATE_PITCH_KD           150.0f
 #define RATE_PITCH_OUTPUT_MAX   400.0f
 #define RATE_PITCH_OUTPUT_MIN  -400.0f
 #define RATE_PITCH_INTEGRAL_MAX 50.0f
@@ -70,6 +70,9 @@
 #define MOTOR_MIN               1000    // 电机PWM最小值（μs）
 #define MOTOR_MAX               2000    // 电机PWM最大值（μs）
 #define THROTTLE_MIN            1100    // 油门激活阈值（低于此值锁定电机）
+
+// 怠速设置：确保电机在飞行中即使PID输出为负也保持旋转
+#define MOTOR_IDLE              1150    // 怠速PWM值
 
 // 角度限制参数
 #define ANGLE_MAX_DEG           30.0f   // 最大倾斜角度（度）

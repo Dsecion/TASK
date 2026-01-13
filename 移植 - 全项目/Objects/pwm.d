@@ -28,3 +28,7 @@
 .\objects\pwm.o: .\library\inc\stm32f4xx_wwdg.h
 .\objects\pwm.o: .\library\inc\misc.h
 .\objects\pwm.o: .\user\PID_Config.h
+.\objects\pwm.o: hardware\ADC.h
+.\objects\pwm.o: hardware\ATKBLE01.h
+.\objects\pwm.o: D:\Keil5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\pwm.o: D:\Keil5\ARM\ARMCC\Bin\..\include\stdarg.h

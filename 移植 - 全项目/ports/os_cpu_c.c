@@ -662,4 +662,3 @@ void  SysTick_Handler (void)
 
     OSIntExit();                                                /* Tell uC/OS-II that we are leaving the ISR            */
 }
-
